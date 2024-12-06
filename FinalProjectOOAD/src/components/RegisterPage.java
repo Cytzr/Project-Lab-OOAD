@@ -1,5 +1,6 @@
 package components;
 
+import controller.UserController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -12,6 +13,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import utilities.AlertUtil;
+import utilities.Connect;
 
 public class RegisterPage implements EventHandler<ActionEvent>{
 
@@ -27,7 +29,8 @@ public class RegisterPage implements EventHandler<ActionEvent>{
 	private HBox roleBox, registerBox, loginBox;
 	private VBox footerBox;
 	private ToggleGroup roleGroup;
-
+	private Connect db;
+	
     public RegisterPage(Stage stage) {
         this.stage = stage;
 
@@ -121,6 +124,7 @@ public class RegisterPage implements EventHandler<ActionEvent>{
 
 	@Override
 	public void handle(ActionEvent event) {
+		 UserController userController = new UserController();
 		if(event.getSource() == registerButton) {
             String username = usernameTf.getText();
             String pass = passTf.getText();
@@ -146,7 +150,7 @@ public class RegisterPage implements EventHandler<ActionEvent>{
 	            return;
 	        }
 
-	        if (!(phone.length() < 10) ||!phone.startsWith("+62")) {
+	        if (!(phone.length() >= 10) || !phone.startsWith("+62")) {
 	            AlertUtil.showAlert(Alert.AlertType.ERROR, "Registration Failed", "Phone number must start with +62 and at least 10 numbers long.");
 	            return;
 	        }
@@ -160,10 +164,10 @@ public class RegisterPage implements EventHandler<ActionEvent>{
 	            AlertUtil.showAlert(Alert.AlertType.ERROR, "Registration Failed", "You must select a role.");
 	            return;
 	        }
-
+	      
 	        RadioButton selectedRole = (RadioButton) roleGroup.getSelectedToggle();
 	        String role = selectedRole.getText();
-
+	        userController.createUser(username, pass, phone, address, role);
 	        AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Registration Successful", "Welcome, " + username + "! Your role is " + role + ".");
 		}
 		
