@@ -13,10 +13,9 @@ public class Item {
 	private String item_wishlist;
 	private String item_offer_status;
 	private String userId;
-	private String approved;
 
 	public Item(String item_id, String item_name, String item_size, String item_price, String item_category,
-			String item_status, String item_wishlist, String item_offer_status, String userId, String approved) {
+			String item_status, String item_wishlist, String item_offer_status, String userId) {
 		super();
 		this.item_id = item_id;
 		this.item_name = item_name;
@@ -27,7 +26,6 @@ public class Item {
 		this.item_wishlist = item_wishlist;
 		this.item_offer_status = item_offer_status;
 		this.userId = userId;
-		this.approved = approved;
 	}
 
 	/**
@@ -42,14 +40,6 @@ public class Item {
 	 */
 	public void setItem_id(String item_id) {
 		this.item_id = item_id;
-	}
-
-	public String getApproved() {
-		return approved;
-	}
-
-	public void setApproved(String approved) {
-		this.approved = approved;
 	}
 
 	/**

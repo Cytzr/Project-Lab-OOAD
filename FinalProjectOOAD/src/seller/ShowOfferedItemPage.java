@@ -5,12 +5,14 @@ import java.util.List;
 import admin.RejectItemPage;
 import components.SellerNavbar;
 import controller.OfferController;
+import controller.TransactionController;
 import hybrid_model.OfferTableModel;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
@@ -24,6 +26,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.Item;
 import model.Offer;
+import utilities.AlertUtil;
 
 public class ShowOfferedItemPage implements EventHandler<ActionEvent> {
 	private Stage stage;
@@ -33,6 +36,7 @@ public class ShowOfferedItemPage implements EventHandler<ActionEvent> {
 	private HBox titleBox, roleBox;
 	private VBox headerBox;
 	OfferController offerController = new OfferController();
+	TransactionController transactionController = new TransactionController();
 	TableView<OfferTableModel> itemTable;
 	private String userId;
 	public ShowOfferedItemPage(Stage stage, String userId) {
@@ -106,7 +110,16 @@ public class ShowOfferedItemPage implements EventHandler<ActionEvent> {
 		            {
 		                buttonAccept.setOnAction(event -> {
 		                	OfferTableModel currentItem = getTableView().getItems().get(getIndex());
-		                	//Accept Logic
+		                	System.out.println(currentItem.getOffer_id());
+		                	boolean status = offerController.AcceptOffer(currentItem.getOffer_id());
+		                	if (status == true) {
+		        				AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Offered Accepted", "Offer has been accepted");
+		        				transactionController.PurchaseItems(currentItem.getUser_id(), currentItem.getItem_id());
+		        				new ShowOfferedItemPage(stage, userId);
+		        			} else {
+		        				AlertUtil.showAlert(Alert.AlertType.ERROR, "Offered Accepted Failed", "Something Went Wrong!");
+		        				return;
+		        			}
 		                });
 
 		                buttonReject.setOnAction(event -> {

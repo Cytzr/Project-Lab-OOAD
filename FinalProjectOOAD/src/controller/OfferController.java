@@ -40,7 +40,7 @@ public class OfferController {
     
     public List<OfferTableModel> ViewOfferedItemSeller(String userId) {
     	System.out.println(userId);
-        String query = "SELECT * FROM offer JOIN item on item.item_id = offer.item_id JOIN user on user.user_id = offer.user_id WHERE item.user_id = ? AND item.approved = 1";
+        String query = "SELECT * FROM offer JOIN item on item.item_id = offer.item_id JOIN user on user.user_id = offer.user_id WHERE item.user_id = ? AND item.item_status = 1 AND offer.status IS NULL";
         List<OfferTableModel> items = new ArrayList<>();
 
         try (PreparedStatement pst = con.prepareStatement(query)) {
@@ -71,7 +71,7 @@ public class OfferController {
         return items;
     }
     public boolean AcceptOffer(String offerId) {
-        String query = "UPDATE item SET status = 1 WHERE offer_id = ?";
+        String query = "UPDATE offer SET status = 1 WHERE offer_id = ?";
         try (PreparedStatement pst = con.prepareStatement(query)) {
           
         	pst.setString(1, offerId);

@@ -54,11 +54,10 @@ public class ItemController {
                         rs.getString("item_size"),
                         rs.getString("item_price"),
                         rs.getString("item_category"),
-                       rs.getString("item_status"),
+                        (rs.getInt("item_status") == 1 ? "Yes" : "No"),
                         rs.getString("item_wishlist"),
                        rs.getString("item_offer_status"),
-                        rs.getString("user_id"),
-                        (rs.getInt("approved") == 1 ? "Yes" : "No")
+                        rs.getString("user_id")
                        
                     );
                     items.add(item);
@@ -92,7 +91,7 @@ public class ItemController {
     }
     
     public boolean deleteItem(String itemId) {
-        String query = "DELETE FROM item WHERE item_id = ? AND approved = true";
+        String query = "DELETE FROM item WHERE item_id = ? AND item_status = 1";
         
         try (PreparedStatement pst = con.prepareStatement(query)) {
            
@@ -129,8 +128,7 @@ public class ItemController {
                        rs.getString("item_status"),
                         rs.getString("item_wishlist"),
                        rs.getString("item_offer_status"),
-                        rs.getString("user_id"),
-                        rs.getString("approved")
+                        rs.getString("user_id")
                     );
                     items.add(item);
                 }

@@ -1,6 +1,11 @@
 package user;
 
+import java.util.List;
+
 import components.UserNavbar;
+import controller.TransactionController;
+import hybrid_model.OfferTableModel;
+import hybrid_model.TransactionHistoryModel;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -22,9 +27,9 @@ public class ShowAllTransactionHistoryPage {
 	private HBox titleBox, roleBox;
 	private VBox headerBox;
 	
-	TableView<Item> itemTable;
+	TableView<TransactionHistoryModel> itemTable;
 	private String userId;
-	
+	TransactionController transactionController = new TransactionController();
 	public ShowAllTransactionHistoryPage(Stage stage, String userId) {
 		this.stage = stage;
 		this.userId = userId;
@@ -53,7 +58,7 @@ public class ShowAllTransactionHistoryPage {
 		borderPane2 = new BorderPane();
 		borderPane2.setTop(headerBox);
 		
-		itemTable = new TableView<Item>();
+		itemTable = new TableView<TransactionHistoryModel>();
 		borderPane2.setCenter(itemTable);
 		
 		borderPane1 = new BorderPane();
@@ -64,25 +69,32 @@ public class ShowAllTransactionHistoryPage {
 	}
 	
 	private void initTable() {
-		TableColumn<Item, String> nameCol = new TableColumn<Item, String>("Name");
-		nameCol.setCellValueFactory(new PropertyValueFactory<Item, String>("item_name"));
+		
+		TableColumn<TransactionHistoryModel, String> idCol = new TableColumn<TransactionHistoryModel, String>("Name");
+		idCol.setCellValueFactory(new PropertyValueFactory<TransactionHistoryModel, String>("transaction_id"));
+		idCol.setMinWidth(borderPane1.getWidth()/6);
+		
+		TableColumn<TransactionHistoryModel, String> nameCol = new TableColumn<TransactionHistoryModel, String>("Name");
+		nameCol.setCellValueFactory(new PropertyValueFactory<TransactionHistoryModel, String>("item_name"));
 		nameCol.setMinWidth(borderPane1.getWidth()/4);
 		
-		TableColumn<Item, String> categoryCol = new TableColumn<Item, String>("Category");
-		categoryCol.setCellValueFactory(new PropertyValueFactory<Item, String>("item_category"));
+		TableColumn<TransactionHistoryModel, String> categoryCol = new TableColumn<TransactionHistoryModel, String>("Category");
+		categoryCol.setCellValueFactory(new PropertyValueFactory<TransactionHistoryModel, String>("item_category"));
 		categoryCol.setMinWidth(borderPane1.getWidth()/4);
 		
-		TableColumn<Item, String> sizeCol = new TableColumn<Item, String>("Size");
-		sizeCol.setCellValueFactory(new PropertyValueFactory<Item, String>("item_size"));
+		TableColumn<TransactionHistoryModel, String> sizeCol = new TableColumn<TransactionHistoryModel, String>("Size");
+		sizeCol.setCellValueFactory(new PropertyValueFactory<TransactionHistoryModel, String>("item_size"));
 		sizeCol.setMinWidth(borderPane1.getWidth()/4);
 		
-		TableColumn<Item, String> priceCol = new TableColumn<Item, String>("Price");
-		priceCol.setCellValueFactory(new PropertyValueFactory<Item, String>("item_price"));
+		TableColumn<TransactionHistoryModel, String> priceCol = new TableColumn<TransactionHistoryModel, String>("Price");
+		priceCol.setCellValueFactory(new PropertyValueFactory<TransactionHistoryModel, String>("item_price"));
 		priceCol.setMinWidth(borderPane1.getWidth()/4);
 		
-		itemTable.getColumns().addAll(nameCol, categoryCol, sizeCol, priceCol);
+		itemTable.getColumns().addAll(idCol, nameCol, categoryCol, sizeCol, priceCol);
 		
-		//dummy data
-		itemTable.getItems().add(new Item("1", "Name", "10", "100", "CLothing", "", "", ""));
+		List<TransactionHistoryModel> transactions = transactionController.ViewHistory(userId);
+		for (TransactionHistoryModel item : transactions) { 
+		    itemTable.getItems().add(item);
+		}
 	}
 }

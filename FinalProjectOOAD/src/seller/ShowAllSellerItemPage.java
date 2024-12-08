@@ -98,8 +98,8 @@ public class ShowAllSellerItemPage implements EventHandler<ActionEvent> {
 		priceCol.setCellValueFactory(new PropertyValueFactory<Item, String>("item_price"));
 		priceCol.setMinWidth(borderPane1.getWidth()/7);
 		
-		TableColumn<Item, String> approveCol = new TableColumn<Item, String>("Approved");
-		approveCol.setCellValueFactory(new PropertyValueFactory<Item, String>("approved"));
+		TableColumn<Item, String> approveCol = new TableColumn<Item, String>("Status");
+		approveCol.setCellValueFactory(new PropertyValueFactory<Item, String>("item_status"));
 		approveCol.setMinWidth(borderPane1.getWidth()/15);
 		
 		TableColumn<Item, Void> buttonCol = new TableColumn<Item, Void>("Actions");
