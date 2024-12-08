@@ -31,10 +31,11 @@ public class MakeOfferPage implements EventHandler<ActionEvent> {
 	VBox headerBox, footerBox;
 
 	Item item;
+	private String userId;
 
-	public MakeOfferPage(Stage stage, Item item) {
+	public MakeOfferPage(Stage stage, Item item, String userId) {
 		this.stage = stage;
-
+		this.userId = userId;
 		this.item = item;
 
 		init(item);
@@ -139,7 +140,7 @@ public class MakeOfferPage implements EventHandler<ActionEvent> {
 			}
 		}
 		if (event.getSource() == backButton) {
-			new ShowAllBuyerItemPage(stage);
+			new ShowAllBuyerItemPage(stage, userId);
 		}
 	}
 }

@@ -13,11 +13,12 @@ public class AdminNavbar {
 	private static MenuItem reviewItems;
 	
 	public static MenuBar getInstance(Stage stage) {
+		String userId = "0";
 		menuBar = new MenuBar();
 		navigation = new Menu("Navigation");
 		
 		reviewItems = new MenuItem("Review Items");
-		reviewItems.setOnAction(e -> new ShowAllSellerItemPage(stage));
+		reviewItems.setOnAction(e -> new ShowAllSellerItemPage(stage, userId));
 		
 		navigation.getItems().add(reviewItems);
 		

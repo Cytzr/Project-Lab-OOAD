@@ -1,11 +1,16 @@
 package seller;
 
+import java.util.List;
+import java.util.Map;
+
 import components.SellerNavbar;
+import controller.ItemController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
@@ -18,6 +23,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.Item;
+import utilities.AlertUtil;
 
 public class ShowAllSellerItemPage implements EventHandler<ActionEvent> {
 
@@ -28,12 +34,12 @@ public class ShowAllSellerItemPage implements EventHandler<ActionEvent> {
 	private Button uploadButton;
 	private HBox titleBox, roleBox, buttonBox;
 	private VBox headerBox;
-	
+	private String userId;
 	TableView<Item> itemTable;
-	
-	public ShowAllSellerItemPage(Stage stage) {
+	ItemController itemController = new ItemController();
+	public ShowAllSellerItemPage(Stage stage, String userId) {
 		this.stage = stage;
-		
+		this.userId = userId;
 		init();
 		initTable();
 		handleEvent();
@@ -72,7 +78,7 @@ public class ShowAllSellerItemPage implements EventHandler<ActionEvent> {
 		borderPane1.setTop(SellerNavbar.getInstance(stage));
 		borderPane1.setCenter(borderPane2);
 		
-		scene = new Scene(borderPane1, 800, 600);
+		scene = new Scene(borderPane1, 1000, 600);
 	}
 	
 	private void initTable() {
@@ -90,7 +96,11 @@ public class ShowAllSellerItemPage implements EventHandler<ActionEvent> {
 		
 		TableColumn<Item, String> priceCol = new TableColumn<Item, String>("Price");
 		priceCol.setCellValueFactory(new PropertyValueFactory<Item, String>("item_price"));
-		priceCol.setMinWidth(borderPane1.getWidth()/5);
+		priceCol.setMinWidth(borderPane1.getWidth()/7);
+		
+		TableColumn<Item, String> approveCol = new TableColumn<Item, String>("Approved");
+		approveCol.setCellValueFactory(new PropertyValueFactory<Item, String>("approved"));
+		approveCol.setMinWidth(borderPane1.getWidth()/15);
 		
 		TableColumn<Item, Void> buttonCol = new TableColumn<Item, Void>("Actions");
 		buttonCol.setCellFactory(new Callback<>() {
@@ -103,12 +113,18 @@ public class ShowAllSellerItemPage implements EventHandler<ActionEvent> {
 		            {
 		                buttonEdit.setOnAction(event -> {
 		                    Item currentItem = getTableView().getItems().get(getIndex());
-		                    new ViewSellerItemPage(stage, currentItem);
+		                    new ViewSellerItemPage(stage, currentItem, userId);
 		                });
 
 		                buttonDelete.setOnAction(event -> {
 		                    Item currentItem = getTableView().getItems().get(getIndex());
-		                    getTableView().getItems().remove(currentItem);
+		                   boolean status = itemController.deleteItem(currentItem.getItem_id());
+		                   if (status) {
+		                	   AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Delete Successful", "Item has been deleted");
+		                   } else {
+		                	   AlertUtil.showAlert(Alert.AlertType.ERROR, "Delete Failed", "Something Went Wrong, Check if the item is approved by item or not");
+		                   }
+		                   new ShowAllSellerItemPage(stage, userId);
 		                });
 		            }
 
@@ -127,10 +143,14 @@ public class ShowAllSellerItemPage implements EventHandler<ActionEvent> {
 
 		buttonCol.setMinWidth(borderPane1.getWidth()/5);
 		
-		itemTable.getColumns().addAll(nameCol, categoryCol, sizeCol, priceCol, buttonCol);
 		
-		//dummy data
-		itemTable.getItems().add(new Item("1", "Name", "10", "100", "CLothing", "", "", ""));
+		itemTable.getColumns().addAll(nameCol, categoryCol, sizeCol, priceCol, approveCol, buttonCol);
+		
+		
+		List<Item> sellerItems = itemController.getSellerItem(userId);
+		for (Item item : sellerItems) { 
+		    itemTable.getItems().add(item);
+		}
 	}
 
 	public void handleEvent() {
@@ -140,7 +160,7 @@ public class ShowAllSellerItemPage implements EventHandler<ActionEvent> {
 	@Override
 	public void handle(ActionEvent event) {
 		if(event.getSource() == uploadButton) {
-			new CreateItemPage(stage);
+			new CreateItemPage(stage, userId);
 		}
 	}
 }

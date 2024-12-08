@@ -31,10 +31,10 @@ public class RejectItemSellerPage implements EventHandler<ActionEvent> {
 	VBox headerBox, footerBox;
 	
 	OfferTableModel item;
-	
-	public RejectItemSellerPage(Stage stage, OfferTableModel item) {
+	private String userId;
+	public RejectItemSellerPage(Stage stage, OfferTableModel item, String userId) {
 		this.stage = stage;
-		
+		this.userId = userId;
 		this.item = item;
 		
 		init(item);
@@ -131,7 +131,7 @@ public class RejectItemSellerPage implements EventHandler<ActionEvent> {
 			//logic here
 		}
 		if(event.getSource() == backButton) {
-			new ShowOfferedItemPage(stage);
+			new ShowOfferedItemPage(stage, userId);
 		}
 	}
 }

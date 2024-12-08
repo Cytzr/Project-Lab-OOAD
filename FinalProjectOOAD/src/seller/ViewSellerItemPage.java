@@ -29,10 +29,11 @@ public class ViewSellerItemPage implements EventHandler<ActionEvent>{
 	VBox headerBox, footerBox;
 	
 	Item item;
+	private String userId;
 	
-	public ViewSellerItemPage(Stage stage, Item item) {
+	public ViewSellerItemPage(Stage stage, Item item, String userId) {
 		this.stage = stage;
-		
+		this.userId = userId;
 		this.item = item;
 		
 		init(item);
@@ -114,10 +115,10 @@ public class ViewSellerItemPage implements EventHandler<ActionEvent>{
 	@Override
 	public void handle(ActionEvent event) {
 		if(event.getSource() == editButton) {
-			new EditItemPage(stage, item);
+			new EditItemPage(stage, item, userId);
 		}
 		if(event.getSource() == backButton) {
-			new ShowAllSellerItemPage(stage);
+			new ShowAllSellerItemPage(stage, userId);
 		}
 	}
 }

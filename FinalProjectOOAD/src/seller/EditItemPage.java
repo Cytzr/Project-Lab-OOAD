@@ -1,5 +1,6 @@
 package seller;
 
+import controller.ItemController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -29,12 +30,14 @@ public class EditItemPage implements EventHandler<ActionEvent> {
 	VBox headerBox, footerBox;
 	
 	Item item;
-	
-	public EditItemPage(Stage stage, Item item) {
+	ItemController itemController = new ItemController();
+	private String userId;
+	private String itemId;
+	public EditItemPage(Stage stage, Item item, String userId) {
 		this.stage = stage;
-		
+		this.userId = userId;
 		this.item = item;
-		
+		itemId = item.getItem_id();
 		init(item);
 		handleEvent();
 		
@@ -44,6 +47,7 @@ public class EditItemPage implements EventHandler<ActionEvent> {
 	}
 	
 	private void init(Item item) {
+		
 		titleLabel = new Label("Edit Item");
 		titleLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
 		titleBox = new HBox(titleLabel);
@@ -121,41 +125,48 @@ public class EditItemPage implements EventHandler<ActionEvent> {
 	@Override
 	public void handle(ActionEvent event) {
 		if(event.getSource() == uploadButton) {
+		
 			String name = nameTf.getText();
 			String category = categoryTf.getText();
 			String size = sizeTf.getText();
 			int price;
 			
 			if(name.isEmpty() || category.isEmpty() || size.isEmpty()) {
-				AlertUtil.showAlert(Alert.AlertType.ERROR, "Upload Failed", "All fields must be filled");
+				AlertUtil.showAlert(Alert.AlertType.ERROR, "Edit Failed", "All fields must be filled");
 				return;
 			}
 			
 			if(name.length() < 3) {
-				AlertUtil.showAlert(Alert.AlertType.ERROR, "Upload Failed", "Item name must be longer at least 3 characters long");
+				AlertUtil.showAlert(Alert.AlertType.ERROR, "Edit Failed", "Item name must be longer at least 3 characters long");
 				return;
 			}
 			if(category.length() < 3) {
-				AlertUtil.showAlert(Alert.AlertType.ERROR, "Upload Failed", "Item category must be at least 3 characters long");
+				AlertUtil.showAlert(Alert.AlertType.ERROR, "Edit Failed", "Item category must be at least 3 characters long");
 				return;
 			}
 			try {
 				price = Integer.parseInt(priceTf.getText());
 			}
 			catch (Exception ex){
-				AlertUtil.showAlert(Alert.AlertType.ERROR, "Upload Failed", "Item price must be in number");
+				AlertUtil.showAlert(Alert.AlertType.ERROR, "Edit Failed", "Item price must be in number");
 				return;
 			}
 			if(price <= 0) {
-				AlertUtil.showAlert(Alert.AlertType.ERROR, "Upload Failed", "Item price must be more than 0");
+				AlertUtil.showAlert(Alert.AlertType.ERROR, "Edit Failed", "Item price must be more than 0");
 				return;
 			}
-			AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Upload Successful", "Item has been uploaded");
 			
-			new ShowAllSellerItemPage(stage);
+			
+			boolean status = itemController.editItem(itemId, name, size, price, category);
+			if (status) {
+				AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Edit Successful", "Item has been edited");
+			} else {
+				AlertUtil.showAlert(Alert.AlertType.ERROR, "Edit Failed", "Something Went Wrong!");
+			}
+			new ShowAllSellerItemPage(stage, userId);
 		}
 		if(event.getSource() == backButton) {
-			new ViewSellerItemPage(stage, item);
+			new ViewSellerItemPage(stage, item, userId);
 		}
 	}
 	

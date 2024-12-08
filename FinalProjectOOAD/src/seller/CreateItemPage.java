@@ -1,5 +1,6 @@
 package seller;
 
+import controller.ItemController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -26,10 +27,10 @@ public class CreateItemPage implements EventHandler<ActionEvent> {
 	private Button uploadButton, backButton;
 	private HBox titleBox, roleBox, uploadBox, backBox;
 	private VBox headerBox, footerBox;
-	
-	public CreateItemPage(Stage stage) {
+	private String userId;
+	public CreateItemPage(Stage stage, String userId) {
 		this.stage = stage;
-		
+		this.userId = userId;
 		init();
 		handleEvent();
 		
@@ -39,6 +40,7 @@ public class CreateItemPage implements EventHandler<ActionEvent> {
 	}
 	
 	private void init() {
+	
 		titleLabel = new Label("Upload Item");
 		titleLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
 		titleBox = new HBox(titleLabel);
@@ -111,6 +113,7 @@ public class CreateItemPage implements EventHandler<ActionEvent> {
 
 	@Override
 	public void handle(ActionEvent event) {
+		ItemController itemController = new ItemController();
 		if(event.getSource() == uploadButton) {
 			String name = nameTf.getText();
 			String category = categoryTf.getText();
@@ -141,11 +144,18 @@ public class CreateItemPage implements EventHandler<ActionEvent> {
 				AlertUtil.showAlert(Alert.AlertType.ERROR, "Upload Failed", "Item price must be more than 0");
 				return;
 			}
-			AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Upload Successful", "Item has been uploaded");
+			boolean status = itemController.uploadItem(name, size, price, category, userId);
+			if (status == true) {
+				AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Upload Successful", "Item has been uploaded");
+			} else {
+				AlertUtil.showAlert(Alert.AlertType.ERROR, "Upload Failed", "Something Went Wrong!");
+				return;
+			}
+			
 		}
 		
 		if(event.getSource() == backButton) {
-			new ShowAllSellerItemPage(stage);
+			new ShowAllSellerItemPage(stage, userId);
 		}
 	}
 	

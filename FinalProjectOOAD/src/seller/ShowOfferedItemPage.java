@@ -29,10 +29,10 @@ public class ShowOfferedItemPage implements EventHandler<ActionEvent> {
 	private VBox headerBox;
 	
 	TableView<OfferTableModel> itemTable;
-	
-	public ShowOfferedItemPage(Stage stage) {
+	private String userId;
+	public ShowOfferedItemPage(Stage stage, String userId) {
 		this.stage = stage;
-		
+		this.userId = userId;
 		init();
 		initTable();
 		handleEvent();
@@ -106,7 +106,7 @@ public class ShowOfferedItemPage implements EventHandler<ActionEvent> {
 
 		                buttonReject.setOnAction(event -> {
 		                	OfferTableModel currentItem = getTableView().getItems().get(getIndex());
-		                	new RejectItemSellerPage(stage, currentItem);
+		                	new RejectItemSellerPage(stage, currentItem, userId);
 		                });
 		            }
 

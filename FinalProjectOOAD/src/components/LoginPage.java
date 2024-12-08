@@ -1,5 +1,8 @@
 package components;
 
+import java.util.Map;
+
+import controller.UserController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -11,6 +14,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import seller.ShowAllSellerItemPage;
+import user.ShowAllBuyerItemPage;
 import utilities.AlertUtil;
 
 public class LoginPage implements EventHandler<ActionEvent>{
@@ -90,7 +95,7 @@ public class LoginPage implements EventHandler<ActionEvent>{
 
 	@Override
 	public void handle(ActionEvent event) {
-		
+		UserController userController = new UserController();
 		if(event.getSource() == loginButton) {
 			String username = usernameTf.getText();
 			String pass = passTf.getText();
@@ -99,10 +104,28 @@ public class LoginPage implements EventHandler<ActionEvent>{
 		            return;
 		        } else {
 		            if (username.equals("admin") && pass.equals("pass")) {
-		                AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Login Successful", "Welcome, " + username + "!");
+		            	AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Login Successful", "Welcome, " + username + "!");
+		            	new AdminNavbar();
 		                //navigates
 		            } else {
-		                AlertUtil.showAlert(Alert.AlertType.ERROR, "Login Failed", "Invalid username or pass.");
+		            	Map<String, String> user = userController.login(username, pass);
+		            	if (user != null) {
+		            	    String userId = user.get("userId");
+		            	    String role = user.get("role");
+		            	    
+		            		AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Login Successful", "Welcome, " + username + "!");
+		            		
+		            		if(role.equals("Seller")) {
+
+		            			new ShowAllSellerItemPage(stage, userId);
+		            		
+		            		} else {
+		            			new ShowAllBuyerItemPage(stage, userId);
+		            		}
+		            	} else {
+		            		AlertUtil.showAlert(Alert.AlertType.ERROR, "Login Failed", "Invalid username or pass.");
+		            	}
+		                
 		                return;
 		            }
 		        }

@@ -73,7 +73,7 @@ public class RegisterPage implements EventHandler<ActionEvent>{
         buyerRadio.setToggleGroup(roleGroup);
         adminRadio.setToggleGroup(roleGroup);
 
-        roleBox = new HBox(7, sellerRadio, buyerRadio, adminRadio);
+        roleBox = new HBox(7, sellerRadio, buyerRadio);
         roleBox.setAlignment(Pos.CENTER_LEFT);
 
         registerButton = new Button("Register");
@@ -167,8 +167,13 @@ public class RegisterPage implements EventHandler<ActionEvent>{
 	      
 	        RadioButton selectedRole = (RadioButton) roleGroup.getSelectedToggle();
 	        String role = selectedRole.getText();
-	        userController.createUser(username, pass, phone, address, role);
-	        AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Registration Successful", "Welcome, " + username + "! Your role is " + role + ".");
+	        boolean status = userController.createUser(username, pass, phone, address, role);
+	        if (status == true) {
+	        	 AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Registration Successful", "Welcome, " + username + "! Your role is " + role + ".");
+	        } else {
+	        	 AlertUtil.showAlert(Alert.AlertType.ERROR, "Registration Failed", "Something Went Wrong or User Already Exist");
+	        }
+	       
 		}
 		
 		if(event.getSource() == loginButton) {

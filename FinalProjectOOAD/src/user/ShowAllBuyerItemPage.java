@@ -1,6 +1,9 @@
 package user;
 
+import java.util.List;
+
 import components.UserNavbar;
+import controller.ItemController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -27,10 +30,11 @@ public class ShowAllBuyerItemPage{
 	private VBox headerBox;
 	
 	TableView<Item> itemTable;
-	
-	public ShowAllBuyerItemPage(Stage stage) {
+	ItemController itemController = new ItemController();
+	private String userId;
+	public ShowAllBuyerItemPage(Stage stage, String userId) {
 		this.stage = stage;
-		
+		this.userId = userId;
 		init();
 		initTable();
 		
@@ -100,7 +104,7 @@ public class ShowAllBuyerItemPage{
 		                buttonOffer.setOnAction(event -> {
 		                	//Make offer logic
 		                	Item currentItem = getTableView().getItems().get(getIndex());
-		                	new MakeOfferPage(stage, currentItem);
+		                	new MakeOfferPage(stage, currentItem, userId);
 		                });
 		                buttonWishlist.setOnAction(event -> {
 		                    //Wishlist logic
@@ -125,7 +129,9 @@ public class ShowAllBuyerItemPage{
 		
 		itemTable.getColumns().addAll(nameCol, categoryCol, sizeCol, priceCol, buttonCol);
 		
-		//dummy data
-		itemTable.getItems().add(new Item("1", "Name", "10", "100", "CLothing", "", "", ""));
+		List<Item> sellerItems = itemController.getSellerItem(userId);
+		for (Item item : sellerItems) { 
+		    itemTable.getItems().add(item);
+		}
 	}
 }
