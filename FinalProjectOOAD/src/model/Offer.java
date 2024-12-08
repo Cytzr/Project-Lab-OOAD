@@ -6,14 +6,19 @@ public class Offer {
 	private String user_id;
 	private String item_id;
 	private int offer_price;
-	
-	public Offer(String offer_id, String user_id, String item_id, int offer_price) {
+	private String status;
+	private int actualPrice;
+	private String itemName;
+	public Offer(String offer_id, String user_id, String item_id, int offer_price, String status, int actualPrice, String itemName) {
 		super();
 		this.offer_id = offer_id;
 		this.user_id = user_id;
 		this.item_id = item_id;
 		this.offer_price = offer_price;
-	}
+		this.status = status;
+		this.actualPrice = actualPrice;
+		this.itemName = itemName;
+	}	
 	/**
 	 * @return the offer_id
 	 */
@@ -25,6 +30,21 @@ public class Offer {
 	 */
 	public void setOffer_id(String offer_id) {
 		this.offer_id = offer_id;
+	}
+	public int getActualPrice() {
+		return actualPrice;
+	}
+	public void setActualPrice(int actualPrice) {
+		this.actualPrice = actualPrice;
+	}
+	public String getItemName() {
+		return itemName;
+	}
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
+	}
+	public String getStatus() {
+		return status;
 	}
 	/**
 	 * @return the user_id
@@ -43,6 +63,12 @@ public class Offer {
 	 */
 	public String getItem_id() {
 		return item_id;
+	}
+	public String isStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	/**
 	 * @param item_id the item_id to set

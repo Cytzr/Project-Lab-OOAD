@@ -1,7 +1,10 @@
 package seller;
 
+import java.util.List;
+
 import admin.RejectItemPage;
 import components.SellerNavbar;
+import controller.OfferController;
 import hybrid_model.OfferTableModel;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -19,6 +22,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import model.Item;
+import model.Offer;
 
 public class ShowOfferedItemPage implements EventHandler<ActionEvent> {
 	private Stage stage;
@@ -27,7 +32,7 @@ public class ShowOfferedItemPage implements EventHandler<ActionEvent> {
 	private Label titleLabel, roleLabel;
 	private HBox titleBox, roleBox;
 	private VBox headerBox;
-	
+	OfferController offerController = new OfferController();
 	TableView<OfferTableModel> itemTable;
 	private String userId;
 	public ShowOfferedItemPage(Stage stage, String userId) {
@@ -63,7 +68,7 @@ public class ShowOfferedItemPage implements EventHandler<ActionEvent> {
 		borderPane2.setCenter(itemTable);
 		
 		borderPane1 = new BorderPane();
-		borderPane1.setTop(SellerNavbar.getInstance(stage));
+		borderPane1.setTop(SellerNavbar.getInstance(stage, userId));
 		borderPane1.setCenter(borderPane2);
 		
 		scene = new Scene(borderPane1, 800, 600);
@@ -127,9 +132,10 @@ public class ShowOfferedItemPage implements EventHandler<ActionEvent> {
 		
 		itemTable.getColumns().addAll(nameCol, categoryCol, sizeCol, priceCol, offerCol, buttonCol);
 		
-		//dummy data
-		itemTable.getItems().add(new OfferTableModel("1", "2", "Budi", "3", "The", "M", "10", "15", "Food"));
-//		itemTable.getItems().add(new Item("1", "Name", "10", "100", "CLothing", "", "", ""));
+		List<OfferTableModel> offerItems = offerController.ViewOfferedItemSeller(userId);
+		for (OfferTableModel item : offerItems) { 
+		    itemTable.getItems().add(item);
+		}
 	}
 
 	public void handleEvent() {

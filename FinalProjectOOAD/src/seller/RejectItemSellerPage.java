@@ -68,7 +68,7 @@ public class RejectItemSellerPage implements EventHandler<ActionEvent> {
 		sizeTf.setText(item.getItem_size());
 
 		priceLabel = new Label("Item Price: ");
-		priceTf = new Label(item.getItem_price());
+		priceTf = new Label(String.valueOf(item.getItem_price()));
 		
 		reasonLabel = new Label("Reject Reason: ");
 		reasonTf = new TextField();

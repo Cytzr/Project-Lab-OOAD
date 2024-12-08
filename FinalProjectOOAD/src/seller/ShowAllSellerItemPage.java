@@ -75,7 +75,7 @@ public class ShowAllSellerItemPage implements EventHandler<ActionEvent> {
 		borderPane2.setCenter(itemTable);
 		
 		borderPane1 = new BorderPane();
-		borderPane1.setTop(SellerNavbar.getInstance(stage));
+		borderPane1.setTop(SellerNavbar.getInstance(stage, userId));
 		borderPane1.setCenter(borderPane2);
 		
 		scene = new Scene(borderPane1, 1000, 600);

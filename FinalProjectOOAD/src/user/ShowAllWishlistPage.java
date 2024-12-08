@@ -28,10 +28,10 @@ public class ShowAllWishlistPage {
 	private VBox headerBox;
 	
 	TableView<Item> itemTable;
-	
-	public ShowAllWishlistPage(Stage stage) {
+	private String userId;
+	public ShowAllWishlistPage(Stage stage, String userId) {
 		this.stage = stage;
-		
+		this.userId = userId;
 		init();
 		initTable();
 		
@@ -61,7 +61,7 @@ public class ShowAllWishlistPage {
 		borderPane2.setCenter(itemTable);
 		
 		borderPane1 = new BorderPane();
-		borderPane1.setTop(UserNavbar.getInstance(stage));
+		borderPane1.setTop(UserNavbar.getInstance(stage, userId));
 		borderPane1.setCenter(borderPane2);
 		
 		scene = new Scene(borderPane1, 800, 600);

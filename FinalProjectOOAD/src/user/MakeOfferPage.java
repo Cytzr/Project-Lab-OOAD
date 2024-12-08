@@ -1,5 +1,6 @@
 package user;
 
+import controller.OfferController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -15,6 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.Item;
+import model.Offer;
 import seller.ShowAllSellerItemPage;
 import utilities.AlertUtil;
 
@@ -32,6 +34,7 @@ public class MakeOfferPage implements EventHandler<ActionEvent> {
 
 	Item item;
 	private String userId;
+	OfferController offerController = new OfferController();
 
 	public MakeOfferPage(Stage stage, Item item, String userId) {
 		this.stage = stage;
@@ -127,12 +130,21 @@ public class MakeOfferPage implements EventHandler<ActionEvent> {
 			String offerPrice = offerTf.getText();
 			try {
 				int finalPrice = Integer.parseInt(offerPrice);
-
-				if (finalPrice <= Integer.parseInt(item.getItem_price())) {
-					AlertUtil.showAlert(Alert.AlertType.ERROR, "Offer Failed",
-							"Offer price must be larger than item price");
-					return;
+				Offer highestOffer = offerController.getHighestOffer(item.getItem_id());
+				if (highestOffer != null && finalPrice <= highestOffer.getOffer_price()) {
+				    AlertUtil.showAlert(Alert.AlertType.ERROR, "Offer Failed",
+				            "Offer price must be larger than the current offer price, which is " + highestOffer.getOffer_price());
+				    return;
 				}
+				boolean status = offerController.offerPrice(item.getItem_id(), finalPrice, userId);
+				
+				if (status) {
+					AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Offer Success", "Offer has been made");
+					new ShowAllBuyerItemPage(stage, userId);
+				} else {
+					AlertUtil.showAlert(Alert.AlertType.ERROR, "Offer Failed", "Something Went Wrong");
+				}
+				
 
 			} catch (Exception ex) {
 				AlertUtil.showAlert(Alert.AlertType.ERROR, "Offer Failed", "Offer price must be in number");

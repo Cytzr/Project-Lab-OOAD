@@ -12,19 +12,22 @@ public class UserNavbar {
 	private static MenuBar menuBar;
 	private static Menu navigation;
 	private static MenuItem availableItems, wishlistItems, transactionItems;
-	
-	public static MenuBar getInstance(Stage stage) {
+	private static String userId;
+	public UserNavbar(String userId) {
+    	UserNavbar.userId = userId;
+    }
+	public static MenuBar getInstance(Stage stage, String user_id) {
 		menuBar = new MenuBar();
 		
 		navigation = new Menu("Navigation");
 		availableItems = new MenuItem("View Available Items");
-		availableItems.setOnAction(e -> new ShowAllBuyerItemPage(stage));
+		availableItems.setOnAction(e -> new ShowAllBuyerItemPage(stage, user_id));
 		
 		wishlistItems = new MenuItem("View Wishlist");
-		wishlistItems.setOnAction(e -> new ShowAllWishlistPage(stage));
+		wishlistItems.setOnAction(e -> new ShowAllWishlistPage(stage, user_id));
 		
 		transactionItems = new MenuItem("Transaction History");
-		transactionItems.setOnAction(e -> new ShowAllTransactionHistoryPage(stage));
+		transactionItems.setOnAction(e -> new ShowAllTransactionHistoryPage(stage, user_id));
 		
 		navigation.getItems().add(availableItems);
 		navigation.getItems().add(wishlistItems);

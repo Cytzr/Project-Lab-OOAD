@@ -23,10 +23,11 @@ public class ShowAllTransactionHistoryPage {
 	private VBox headerBox;
 	
 	TableView<Item> itemTable;
+	private String userId;
 	
-	public ShowAllTransactionHistoryPage(Stage stage) {
+	public ShowAllTransactionHistoryPage(Stage stage, String userId) {
 		this.stage = stage;
-		
+		this.userId = userId;
 		init();
 		initTable();
 		
@@ -56,7 +57,7 @@ public class ShowAllTransactionHistoryPage {
 		borderPane2.setCenter(itemTable);
 		
 		borderPane1 = new BorderPane();
-		borderPane1.setTop(UserNavbar.getInstance(stage));
+		borderPane1.setTop(UserNavbar.getInstance(stage, userId));
 		borderPane1.setCenter(borderPane2);
 		
 		scene = new Scene(borderPane1, 800, 600);

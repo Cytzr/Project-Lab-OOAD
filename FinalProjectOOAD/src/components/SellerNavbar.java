@@ -16,17 +16,17 @@ public class SellerNavbar {
     public SellerNavbar(String userId) {
     	SellerNavbar.userId = userId;
     }
-    public static MenuBar getInstance(Stage stage) {
+    public static MenuBar getInstance(Stage stage, String user_id) {
         menuBar = new MenuBar();
         
         navigation = new Menu("Navigation");
         
         viewAllItems = new MenuItem("My Items");
-        viewAllItems.setOnAction(e -> new ShowAllSellerItemPage(stage, userId));
+        viewAllItems.setOnAction(e -> new ShowAllSellerItemPage(stage, user_id));
         
         viewOfferedItems = new MenuItem("View Offered Items");
         viewOfferedItems.setOnAction(e -> {
-        	new ShowOfferedItemPage(stage, userId);
+        	new ShowOfferedItemPage(stage, user_id);
         });
         
         navigation.getItems().add(viewAllItems);

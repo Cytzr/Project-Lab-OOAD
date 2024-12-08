@@ -3,8 +3,8 @@ package hybrid_model;
 public class OfferTableModel {
 	//offer
 	private String offer_id;
-	private String offer_price;
-	
+	private int offer_price;
+	private String status;
 	//user
 	private String user_id;
 	private String username;
@@ -13,27 +13,44 @@ public class OfferTableModel {
 	private String item_id;
 	private String item_name;
 	private String item_size;
-	private String item_price;
+	private int item_price;
 	private String item_category;
 	
-	public OfferTableModel(String offer_id, String user_id, String username, String item_id, String item_name,
-			String item_size, String item_price, String offer_price, String item_category) {
+	
+	public OfferTableModel(String offer_id, String user_id, String item_id, String item_name,
+			String item_size, int item_price, int offer_price, String item_category, String status, String username) {
 		super();
 		this.offer_id = offer_id;
 		this.user_id = user_id;
-		this.username = username;
 		this.item_id = item_id;
 		this.item_name = item_name;
 		this.item_size = item_size;
 		this.item_price = item_price;
 		this.offer_price = offer_price;
 		this.item_category = item_category;
+		this.status = status;
+		this.username = username;
+	}
+	public int getOffer_price() {
+		return offer_price;
 	}
 	/**
 	 * @return the offer_id
 	 */
 	public String getOffer_id() {
 		return offer_id;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public void setOffer_price(int offer_price) {
+		this.offer_price = offer_price;
+	}
+	public void setItem_price(int item_price) {
+		this.item_price = item_price;
 	}
 	/**
 	 * @param offer_id the offer_id to set
@@ -52,6 +69,9 @@ public class OfferTableModel {
 	 */
 	public void setUser_id(String user_id) {
 		this.user_id = user_id;
+	}
+	public int getItem_price() {
+		return item_price;
 	}
 	/**
 	 * @return the username
@@ -101,21 +121,7 @@ public class OfferTableModel {
 	public void setItem_size(String item_size) {
 		this.item_size = item_size;
 	}
-	/**
-	 * @return the item_price
-	 */
-	public String getItem_price() {
-		return item_price;
-	}
-	/**
-	 * @param item_price the item_price to set
-	 */
-	public void setItem_price(String item_price) {
-		this.item_price = item_price;
-	}
-	/**
-	 * @return the item_category
-	 */
+	
 	public String getItem_category() {
 		return item_category;
 	}
@@ -125,17 +131,6 @@ public class OfferTableModel {
 	public void setItem_category(String item_category) {
 		this.item_category = item_category;
 	}
-	/**
-	 * @return the offer_price
-	 */
-	public String getOffer_price() {
-		return offer_price;
-	}
-	/**
-	 * @param offer_price the offer_price to set
-	 */
-	public void setOffer_price(String offer_price) {
-		this.offer_price = offer_price;
-	}
+
 	
 }

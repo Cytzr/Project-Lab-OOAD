@@ -64,7 +64,7 @@ public class ShowAllBuyerItemPage{
 		borderPane2.setCenter(itemTable);
 		
 		borderPane1 = new BorderPane();
-		borderPane1.setTop(UserNavbar.getInstance(stage));
+		borderPane1.setTop(UserNavbar.getInstance(stage, userId));
 		borderPane1.setCenter(borderPane2);
 		
 		scene = new Scene(borderPane1, 800, 600);
@@ -129,8 +129,8 @@ public class ShowAllBuyerItemPage{
 		
 		itemTable.getColumns().addAll(nameCol, categoryCol, sizeCol, priceCol, buttonCol);
 		
-		List<Item> sellerItems = itemController.getSellerItem(userId);
-		for (Item item : sellerItems) { 
+		List<Item> buyerItems = itemController.ViewItem();
+		for (Item item : buyerItems) { 
 		    itemTable.getItems().add(item);
 		}
 	}
