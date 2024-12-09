@@ -70,9 +70,9 @@ public class ShowAllTransactionHistoryPage {
 	
 	private void initTable() {
 		
-		TableColumn<TransactionHistoryModel, String> idCol = new TableColumn<TransactionHistoryModel, String>("Name");
+		TableColumn<TransactionHistoryModel, String> idCol = new TableColumn<TransactionHistoryModel, String>("ID");
 		idCol.setCellValueFactory(new PropertyValueFactory<TransactionHistoryModel, String>("transaction_id"));
-		idCol.setMinWidth(borderPane1.getWidth()/6);
+		idCol.setMinWidth(borderPane1.getWidth()/12);
 		
 		TableColumn<TransactionHistoryModel, String> nameCol = new TableColumn<TransactionHistoryModel, String>("Name");
 		nameCol.setCellValueFactory(new PropertyValueFactory<TransactionHistoryModel, String>("item_name"));
@@ -88,7 +88,7 @@ public class ShowAllTransactionHistoryPage {
 		
 		TableColumn<TransactionHistoryModel, String> priceCol = new TableColumn<TransactionHistoryModel, String>("Price");
 		priceCol.setCellValueFactory(new PropertyValueFactory<TransactionHistoryModel, String>("item_price"));
-		priceCol.setMinWidth(borderPane1.getWidth()/4);
+		priceCol.setMinWidth(borderPane1.getWidth()/5);
 		
 		itemTable.getColumns().addAll(idCol, nameCol, categoryCol, sizeCol, priceCol);
 		

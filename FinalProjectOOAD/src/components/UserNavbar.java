@@ -13,6 +13,7 @@ public class UserNavbar {
 	private static Menu navigation;
 	private static MenuItem availableItems, wishlistItems, transactionItems;
 	private static String userId;
+	private static MenuItem logout;
 	public UserNavbar(String userId) {
     	UserNavbar.userId = userId;
     }
@@ -28,10 +29,12 @@ public class UserNavbar {
 		
 		transactionItems = new MenuItem("Transaction History");
 		transactionItems.setOnAction(e -> new ShowAllTransactionHistoryPage(stage, user_id));
-		
+		logout = new MenuItem("Logout");
+		logout.setOnAction(e -> new LoginPage(stage));
 		navigation.getItems().add(availableItems);
 		navigation.getItems().add(wishlistItems);
 		navigation.getItems().add(transactionItems);
+		navigation.getItems().add(logout);
 		
 		menuBar.getMenus().add(navigation);
 		

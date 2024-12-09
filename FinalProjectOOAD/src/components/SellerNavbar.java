@@ -12,7 +12,7 @@ public class SellerNavbar {
     private static MenuBar menuBar;
     private static Menu navigation;
     private static MenuItem viewAllItems, viewOfferedItems;
-
+    private static MenuItem logout;
     public SellerNavbar(String userId) {
     	SellerNavbar.userId = userId;
     }
@@ -28,11 +28,13 @@ public class SellerNavbar {
         viewOfferedItems.setOnAction(e -> {
         	new ShowOfferedItemPage(stage, user_id);
         });
-        
+        logout = new MenuItem("Logout");
+		logout.setOnAction(e -> new LoginPage(stage));
         navigation.getItems().add(viewAllItems);
         navigation.getItems().add(viewOfferedItems);
         menuBar.getMenus().add(navigation);
-        
+        navigation.getItems().add(logout);
+		
         return menuBar;
     }
 }

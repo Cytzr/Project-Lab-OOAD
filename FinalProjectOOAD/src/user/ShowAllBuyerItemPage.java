@@ -4,9 +4,12 @@ import java.util.List;
 
 import components.UserNavbar;
 import controller.ItemController;
+import controller.TransactionController;
+import controller.WishlistController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
@@ -19,6 +22,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.Item;
+import utilities.AlertUtil;
 
 public class ShowAllBuyerItemPage{
 
@@ -31,6 +35,8 @@ public class ShowAllBuyerItemPage{
 	
 	TableView<Item> itemTable;
 	ItemController itemController = new ItemController();
+	WishlistController wishlistController = new WishlistController();
+	TransactionController transactionController = new TransactionController();
 	private String userId;
 	public ShowAllBuyerItemPage(Stage stage, String userId) {
 		this.stage = stage;
@@ -98,17 +104,35 @@ public class ShowAllBuyerItemPage{
 		            private final HBox buttonContainer = new HBox(10, buttonPurchase, buttonOffer, buttonWishlist);
 		            {
 		                buttonPurchase.setOnAction(event -> {
-		                    //Purchase logic
+		                	Item currentItem = getTableView().getItems().get(getIndex());
+		                	boolean isConfirmed = AlertUtil.showConfirmation("Purchase Confirmation", "Are you sure you want to proceed?");
+		                	if (isConfirmed) {
+		                		boolean status = transactionController.PurchaseItems(userId, currentItem.getItem_id());
+		                		if (status) {
+		        					AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Purchased Success", "Purchase has been made");
+		        					new ShowAllBuyerItemPage(stage, userId);
+		        				} else {
+		        					AlertUtil.showAlert(Alert.AlertType.ERROR, "Purchase Failed", "Something Went Wrong!");
+		        				}
+		             	
+		                	}
 		                	
 		                });
 		                buttonOffer.setOnAction(event -> {
-		                	//Make offer logic
+		                
 		                	Item currentItem = getTableView().getItems().get(getIndex());
 		                	new MakeOfferPage(stage, currentItem, userId);
 		                });
 		                buttonWishlist.setOnAction(event -> {
-		                    //Wishlist logic
-
+		                	Item currentItem = getTableView().getItems().get(getIndex());
+		                	boolean status = wishlistController.addWishListItem(currentItem.getItem_id(), userId);
+		                	if (status) {
+	        					AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Wishlist Add Success", "Item has been added to wishlist");
+	        					new ShowAllBuyerItemPage(stage, userId);
+	        				} else {
+	        					AlertUtil.showAlert(Alert.AlertType.ERROR, "Wishlist Add Failed", "Something Went Wrong!");
+	        				}
+	             	
 		                });
 		            }
 

@@ -20,7 +20,7 @@ public class TransactionController {
 
     private final Connect db;
     private final Connection con;
-
+    WishlistController wishlistController = new WishlistController();
     public TransactionController() {
         this.db = Connect.getInstance();
         this.con = db.getConnection();
@@ -32,6 +32,8 @@ public class TransactionController {
             pst.setString(1, user_id);
             pst.setString(2, item_id);
             pst.executeUpdate();
+            
+            wishlistController.deleteWishlistOnPurchase(user_id, item_id);
             return true;
         } catch (SQLException e) {
             e.printStackTrace();

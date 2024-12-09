@@ -89,7 +89,7 @@ public class OfferController {
         }
     }
     public boolean DeclineOffer(String offerId) {
-        String query = "UPDATE item SET status = 0 WHERE offer_id = ?";
+        String query = "DELETE FROM offer WHERE offer_id = ?";
         try (PreparedStatement pst = con.prepareStatement(query)) {
           
         	pst.setString(1, offerId);

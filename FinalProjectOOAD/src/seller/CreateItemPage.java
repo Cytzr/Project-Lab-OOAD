@@ -147,6 +147,7 @@ public class CreateItemPage implements EventHandler<ActionEvent> {
 			boolean status = itemController.uploadItem(name, size, price, category, userId);
 			if (status == true) {
 				AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Upload Successful", "Item has been uploaded");
+				new ShowAllSellerItemPage(stage, userId);
 			} else {
 				AlertUtil.showAlert(Alert.AlertType.ERROR, "Upload Failed", "Something Went Wrong!");
 				return;

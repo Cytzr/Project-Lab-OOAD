@@ -1,6 +1,7 @@
 package seller;
 
 import admin.ReviewItemPage;
+import controller.OfferController;
 import hybrid_model.OfferTableModel;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -31,6 +32,7 @@ public class RejectItemSellerPage implements EventHandler<ActionEvent> {
 	VBox headerBox, footerBox;
 	
 	OfferTableModel item;
+	OfferController offerController = new OfferController();
 	private String userId;
 	public RejectItemSellerPage(Stage stage, OfferTableModel item, String userId) {
 		this.stage = stage;
@@ -128,7 +130,14 @@ public class RejectItemSellerPage implements EventHandler<ActionEvent> {
 				AlertUtil.showAlert(Alert.AlertType.ERROR, "Reject Error", "Reason must be filled");
 				return;
 			}
-			//logic here
+			boolean status = offerController.DeclineOffer(item.getOffer_id());
+			if (status == true) {
+				AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Offered Declined", "Offer has been declined");
+				new ShowOfferedItemPage(stage, userId);
+			} else {
+				AlertUtil.showAlert(Alert.AlertType.ERROR, "Offered Declined Failed", "Something Went Wrong!");
+				return;
+			}
 		}
 		if(event.getSource() == backButton) {
 			new ShowOfferedItemPage(stage, userId);

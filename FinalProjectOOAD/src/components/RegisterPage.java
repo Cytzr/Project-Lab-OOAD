@@ -164,7 +164,10 @@ public class RegisterPage implements EventHandler<ActionEvent>{
 	            AlertUtil.showAlert(Alert.AlertType.ERROR, "Registration Failed", "You must select a role.");
 	            return;
 	        }
-	      
+	        if (username.equalsIgnoreCase("admin")) {
+	        	 AlertUtil.showAlert(Alert.AlertType.ERROR, "Registration Failed", "Please choose another username");
+		            return;
+	        }
 	        RadioButton selectedRole = (RadioButton) roleGroup.getSelectedToggle();
 	        String role = selectedRole.getText();
 	        boolean status = userController.createUser(username, pass, phone, address, role);

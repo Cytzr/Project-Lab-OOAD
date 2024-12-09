@@ -1,5 +1,6 @@
 package admin;
 
+import controller.ItemController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -31,7 +32,7 @@ public class RejectItemPage implements EventHandler<ActionEvent>{
 	VBox headerBox, footerBox;
 	
 	Item item;
-	
+	ItemController itemController = new ItemController();
 	public RejectItemPage(Stage stage, Item item) {
 		this.stage = stage;
 		
@@ -128,7 +129,13 @@ public class RejectItemPage implements EventHandler<ActionEvent>{
 				AlertUtil.showAlert(Alert.AlertType.ERROR, "Reject Error", "Reason must be filled");
 				return;
 			}
-			//logic here
+			boolean status = itemController.declineItem(item.getItem_id(), reason);
+			 if (status) {
+          	   AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Decline Successful", "Item has been declined");
+          	   new ReviewItemPage(stage);
+             } else {
+          	   AlertUtil.showAlert(Alert.AlertType.ERROR, "Decline Failed", "Something Went Wrong!");
+             }
 		}
 		if(event.getSource() == backButton) {
 			new ReviewItemPage(stage);

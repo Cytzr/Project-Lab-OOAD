@@ -2,6 +2,7 @@ package components;
 
 import java.util.Map;
 
+import admin.ReviewItemPage;
 import controller.UserController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -105,7 +106,7 @@ public class LoginPage implements EventHandler<ActionEvent>{
 		        } else {
 		            if (username.equals("admin") && pass.equals("pass")) {
 		            	AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Login Successful", "Welcome, " + username + "!");
-		            	new AdminNavbar();
+		            	new ReviewItemPage(stage);
 		                //navigates
 		            } else {
 		            	Map<String, String> user = userController.login(username, pass);

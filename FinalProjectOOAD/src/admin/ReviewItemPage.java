@@ -1,10 +1,14 @@
 package admin;
 
+import java.util.List;
+
 import components.AdminNavbar;
 import components.UserNavbar;
+import controller.ItemController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
@@ -18,6 +22,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.Item;
 import user.ShowAllWishlistPage;
+import utilities.AlertUtil;
 
 public class ReviewItemPage {
 	private Stage stage;
@@ -26,7 +31,7 @@ public class ReviewItemPage {
 	private Label titleLabel, roleLabel;
 	private HBox titleBox, roleBox;
 	private VBox headerBox;
-	
+	ItemController itemController = new ItemController();
 	TableView<Item> itemTable;
 	
 	public ReviewItemPage(Stage stage) {
@@ -95,11 +100,18 @@ public class ReviewItemPage {
 		            private final HBox buttonContainer = new HBox(10, buttonAccept, buttonReject);
 		            {
 		                buttonAccept.setOnAction(event -> {
-		                    //Accept logic
-		                	
+		                	Item currentItem = getTableView().getItems().get(getIndex());
+		                    boolean status = itemController.approveItem(currentItem.getItem_id());
+		                    if (status) {
+			                	   AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Approve Successful", "Item has been approved");
+			                	   new ReviewItemPage(stage);
+			                   } else {
+			                	   AlertUtil.showAlert(Alert.AlertType.ERROR, "Approve Failed", "Something Went Wrong!");
+			                   }
+		                   
 		                });
 		                buttonReject.setOnAction(event -> {
-		                	//Reject logic
+		                
 		                	Item currentItem = getTableView().getItems().get(getIndex());
 		                	new RejectItemPage(stage, currentItem);
 		                });
@@ -122,7 +134,9 @@ public class ReviewItemPage {
 		
 		itemTable.getColumns().addAll(nameCol, categoryCol, sizeCol, priceCol, buttonCol);
 		
-		//dummy data
-		itemTable.getItems().add(new Item("1", "Name", "10", "100", "CLothing", "", "", ""));
+		List<Item> approvalItems = itemController.ViewRequestedItem();
+		for (Item item : approvalItems) { 
+		    itemTable.getItems().add(item);
+		}
 	}
 }

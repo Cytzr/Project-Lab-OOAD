@@ -137,7 +137,7 @@ public class MakeOfferPage implements EventHandler<ActionEvent> {
 				    return;
 				}
 				boolean status = offerController.offerPrice(item.getItem_id(), finalPrice, userId);
-				
+
 				if (status) {
 					AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Offer Success", "Offer has been made");
 					new ShowAllBuyerItemPage(stage, userId);
