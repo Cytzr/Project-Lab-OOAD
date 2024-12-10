@@ -22,6 +22,7 @@ public class ItemController {
         this.con = db.getConnection();
     }
 
+    // Upload Item to table item
     public boolean uploadItem(String itemName, String itemSize , int itemPrice, String itemCategory, String userId) {
         String query = "INSERT INTO item(item_name, item_size, item_category, item_price, user_id) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement pst = con.prepareStatement(query)) {
@@ -38,6 +39,7 @@ public class ItemController {
         }
     }
     
+    // Get all the seller item based on the userId of the seller
     public List<Item> getSellerItem(String userId) {
         String query = "SELECT * FROM item WHERE user_id = ?";
         List<Item> items = new ArrayList<>();
@@ -69,6 +71,7 @@ public class ItemController {
         
         return items;
     }
+    //Edit item based on the itemId and get all the updated data
     public boolean editItem(String itemId, String itemName, String itemSize, int itemPrice, String itemCategory) {
         String query = "UPDATE item SET item_name = ?, item_size = ?, item_category = ?, item_price = ? WHERE item_id = ?";
         try (PreparedStatement pst = con.prepareStatement(query)) {
@@ -89,6 +92,7 @@ public class ItemController {
             return false;
         }
     }
+    // Admin approve the seller's item based on the itemId
     public boolean approveItem(String itemId) {
         String query = "UPDATE item SET item_status = 1 WHERE item_id = ?";
         try (PreparedStatement pst = con.prepareStatement(query)) {
@@ -105,6 +109,7 @@ public class ItemController {
             return false;
         }
     }
+    // Admin decline the seller's item based on the itemId and give reason
     public boolean declineItem(String itemId, String reason) {
         String query = "UPDATE item SET item_status = 0, reason = ? WHERE item_id = ?";
         try (PreparedStatement pst = con.prepareStatement(query)) {
@@ -123,6 +128,7 @@ public class ItemController {
         }
     }
     
+    // Delete the item based on itemId
     public boolean deleteItem(String itemId) {
         String query = "DELETE FROM item WHERE item_id = ? AND item_status = 1";
         
@@ -143,7 +149,7 @@ public class ItemController {
             return false;
         }
     }
-    
+    //View all item for buyer page where all the item_status is true or approved by admin
     public List<Item> ViewItem() {
         String query = "SELECT * FROM item WHERE item_status = 1";
         List<Item> items = new ArrayList<>();
@@ -173,6 +179,7 @@ public class ItemController {
         return items;
     }
     
+    //Get all the item that is await to be approved
     public List<Item> ViewRequestedItem() {
         String query = "SELECT * FROM item WHERE item_status IS NULL";
         List<Item> items = new ArrayList<>();

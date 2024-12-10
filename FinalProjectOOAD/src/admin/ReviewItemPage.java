@@ -100,8 +100,11 @@ public class ReviewItemPage {
 		            private final HBox buttonContainer = new HBox(10, buttonAccept, buttonReject);
 		            {
 		                buttonAccept.setOnAction(event -> {
+		                	//Get the current item of the table
 		                	Item currentItem = getTableView().getItems().get(getIndex());
+		                	//Access itemController function approveItem based on itemId
 		                    boolean status = itemController.approveItem(currentItem.getItem_id());
+		                  //Check status true or false for the alert, true means the query success and false mean it fail
 		                    if (status) {
 			                	   AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Approve Successful", "Item has been approved");
 			                	   new ReviewItemPage(stage);
@@ -111,8 +114,9 @@ public class ReviewItemPage {
 		                   
 		                });
 		                buttonReject.setOnAction(event -> {
-		                
+		                	
 		                	Item currentItem = getTableView().getItems().get(getIndex());
+		                	//Redirect to reject item page
 		                	new RejectItemPage(stage, currentItem);
 		                });
 		            }
@@ -134,6 +138,7 @@ public class ReviewItemPage {
 		
 		itemTable.getColumns().addAll(nameCol, categoryCol, sizeCol, priceCol, buttonCol);
 		
+		//Looping apply the data to the table based on data from itemController view requested item
 		List<Item> approvalItems = itemController.ViewRequestedItem();
 		for (Item item : approvalItems) { 
 		    itemTable.getItems().add(item);
