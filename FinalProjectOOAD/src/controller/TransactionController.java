@@ -33,7 +33,7 @@ public class TransactionController {
             pst.setString(2, item_id);
             pst.executeUpdate();
             
-            wishlistController.deleteWishlistOnPurchase(user_id, item_id);
+            wishlistController.deleteWishlistOnPurchase(item_id);
             return true;
         } catch (SQLException e) {
             e.printStackTrace();

@@ -11,4 +11,6 @@ module FinalProjectOOAD {
 	opens user;
 	opens components;
 	opens main;
+	opens controller;
+	opens utilities;
 }

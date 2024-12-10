@@ -122,7 +122,7 @@ public class ShowAllSellerItemPage implements EventHandler<ActionEvent> {
 		                   if (status) {
 		                	   AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Delete Successful", "Item has been deleted");
 		                   } else {
-		                	   AlertUtil.showAlert(Alert.AlertType.ERROR, "Delete Failed", "Something Went Wrong, Check if the item is approved by item or not");
+		                	   AlertUtil.showAlert(Alert.AlertType.ERROR, "Delete Failed", "Something Went Wrong, Check if the item is approved by admin or not");
 		                   }
 		                   new ShowAllSellerItemPage(stage, userId);
 		                });
