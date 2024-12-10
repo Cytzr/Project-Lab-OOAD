@@ -38,19 +38,4 @@ public class Connect {
 	public Connection getConnection() {
 	    return con;
 	}
-	
-//	public List<Orang> selectAllOrang(){
-//		List<Orang> orangList = new ArrayList<>();
-//		String query = "SELECT * FROM orang";
-//		try (Statement st = con.createStatement();ResultSet rs = st.executeQuery(query)){
-//			while(rs.next()) {
-//				orangList.add(new Orang(rs.getInt("id"), rs.getString("name"), rs.getString("email"), rs.getString("phone")));
-//			}
-//		} catch (SQLException e) {
-//			// TODO: handle exception
-//			e.printStackTrace();
-//		}
-//		
-//		return orangList;
-//	}
 }

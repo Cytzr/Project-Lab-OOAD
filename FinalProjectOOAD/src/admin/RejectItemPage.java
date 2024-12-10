@@ -123,15 +123,20 @@ public class RejectItemPage implements EventHandler<ActionEvent>{
 
 	@Override
 	public void handle(ActionEvent event) {
+		//Get reason from input
 		String reason = reasonTf.getText();
 		if(event.getSource() == rejectButton) {
+			//Check reason length
 			if(reason.length() <= 0) {
 				AlertUtil.showAlert(Alert.AlertType.ERROR, "Reject Error", "Reason must be filled");
 				return;
 			}
+			//Access itemcontroller function declineItem to decline the item based on the itemId
 			boolean status = itemController.declineItem(item.getItem_id(), reason);
+			//Check status true or false for the alert, true means the query success and false mean it fail
 			 if (status) {
           	   AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Decline Successful", "Item has been declined");
+          	   //Redirect to review item page;
           	   new ReviewItemPage(stage);
              } else {
           	   AlertUtil.showAlert(Alert.AlertType.ERROR, "Decline Failed", "Something Went Wrong!");
