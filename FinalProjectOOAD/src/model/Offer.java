@@ -1,5 +1,6 @@
 package model;
 
+//model based on the offer table
 public class Offer {
 	
 	private String offer_id;

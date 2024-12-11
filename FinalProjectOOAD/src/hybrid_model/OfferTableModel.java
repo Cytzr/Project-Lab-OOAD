@@ -1,5 +1,7 @@
 package hybrid_model;
 
+
+//hybrid of offer, user, and item table which will be used in item display
 public class OfferTableModel {
 	//offer
 	private String offer_id;

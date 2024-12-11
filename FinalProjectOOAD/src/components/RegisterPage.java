@@ -17,6 +17,8 @@ import utilities.Connect;
 
 public class RegisterPage implements EventHandler<ActionEvent>{
 
+	//declare required components
+	
 	private Stage stage;
 	private Scene scene;
 	private GridPane gridPane;
@@ -43,6 +45,7 @@ public class RegisterPage implements EventHandler<ActionEvent>{
     }
 
     private void init() {
+    	//component initialize and placement
         titleLabel = new Label("Register");
         titleLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
         HBox titleBox = new HBox(titleLabel);
@@ -117,11 +120,13 @@ public class RegisterPage implements EventHandler<ActionEvent>{
         scene = new Scene(borderPane, 400, 300);
     }
     
+    //event handling
     public void handleEvent() {
     	registerButton.setOnAction(this);
     	loginButton.setOnAction(this);
     }
 
+    //actual event handling based on source
 	@Override
 	public void handle(ActionEvent event) {
 		 UserController userController = new UserController();
@@ -131,6 +136,7 @@ public class RegisterPage implements EventHandler<ActionEvent>{
             String phone= phoneTf.getText();
             String address = addressTf.getText();
             
+            //fields validation
 	        if (username.isEmpty()) {
 	            AlertUtil.showAlert(Alert.AlertType.ERROR, "Registration Failed", "Username cannot be empty.");
 	            return;
@@ -170,7 +176,10 @@ public class RegisterPage implements EventHandler<ActionEvent>{
 	        }
 	        RadioButton selectedRole = (RadioButton) roleGroup.getSelectedToggle();
 	        String role = selectedRole.getText();
+	        
+	        //registers user to db
 	        boolean status = userController.createUser(username, pass, phone, address, role);
+	        //show alert based on the response
 	        if (status == true) {
 	        	 AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Registration Successful", "Welcome, " + username + "! Your role is " + role + ".");
 	        } else {
@@ -179,6 +188,7 @@ public class RegisterPage implements EventHandler<ActionEvent>{
 	       
 		}
 		
+		//navigate to login page
 		if(event.getSource() == loginButton) {
 			 new LoginPage(stage);
 		}

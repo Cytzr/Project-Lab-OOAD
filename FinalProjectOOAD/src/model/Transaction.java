@@ -1,5 +1,6 @@
 package model;
 
+//model based on the transaction table
 public class Transaction {
 	private String transaction_id;
 	private String item_id;

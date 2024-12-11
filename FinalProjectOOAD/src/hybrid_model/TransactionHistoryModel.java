@@ -1,5 +1,6 @@
 package hybrid_model;
 
+//hybrid of transaction and item table which will be used in item display
 public class TransactionHistoryModel {
 	private String transaction_id;
 	private String item_id;

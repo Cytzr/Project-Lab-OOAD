@@ -25,6 +25,8 @@ import user.ShowAllWishlistPage;
 import utilities.AlertUtil;
 
 public class ReviewItemPage {
+	
+	//declare required components
 	private Stage stage;
 	private Scene scene;
 	private BorderPane borderPane1, borderPane2;
@@ -46,6 +48,8 @@ public class ReviewItemPage {
 	}
 	
 	private void init() {
+		//component placement
+		
 		titleLabel = new Label("Review Items");
 		titleLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
         titleBox = new HBox(titleLabel);
@@ -95,9 +99,12 @@ public class ReviewItemPage {
 		    @Override
 		    public TableCell<Item, Void> call(TableColumn<Item, Void> param) {
 		        return new TableCell<>() {
+		        	//create cell with multiple items (buttons)
 		            private final Button buttonAccept = new Button("Accept");
 		            private final Button buttonReject = new Button("Reject");
 		            private final HBox buttonContainer = new HBox(10, buttonAccept, buttonReject);
+		            
+		            //create multiple items (buttons) event
 		            {
 		                buttonAccept.setOnAction(event -> {
 		                	//Get the current item of the table
@@ -121,6 +128,7 @@ public class ReviewItemPage {
 		                });
 		            }
 
+		            //create logic on when the buttons will show up
 		            @Override
 		            protected void updateItem(Void item, boolean empty) {
 		                super.updateItem(item, empty);

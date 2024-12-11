@@ -21,6 +21,7 @@ import seller.ShowAllSellerItemPage;
 import utilities.AlertUtil;
 
 public class MakeOfferPage implements EventHandler<ActionEvent> {
+	//declare required components
 	Stage stage;
 	Scene scene;
 	GridPane gridPane;
@@ -49,6 +50,7 @@ public class MakeOfferPage implements EventHandler<ActionEvent> {
 		stage.show();
 	}
 
+	//component initialize and placement
 	private void init(Item item) {
 		titleLabel = new Label("Make Offer");
 		titleLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
@@ -119,6 +121,7 @@ public class MakeOfferPage implements EventHandler<ActionEvent> {
 		scene = new Scene(borderPane, 400, 300);
 	}
 
+	//event handling
 	public void handleEvent() {
 		offerButton.setOnAction(this);
 		backButton.setOnAction(this);
@@ -129,6 +132,7 @@ public class MakeOfferPage implements EventHandler<ActionEvent> {
 		if (event.getSource() == offerButton) {
 			String offerPrice = offerTf.getText();
 			try {
+				//offer validation
 				int finalPrice = Integer.parseInt(offerPrice);
 				Offer highestOffer = offerController.getHighestOffer(item.getItem_id());
 				if (highestOffer != null && finalPrice <= highestOffer.getOffer_price()) {
@@ -138,6 +142,7 @@ public class MakeOfferPage implements EventHandler<ActionEvent> {
 				}
 				boolean status = offerController.offerPrice(item.getItem_id(), finalPrice, userId);
 
+				//alert based on controller response
 				if (status) {
 					AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Offer Success", "Offer has been made");
 					new ShowAllBuyerItemPage(stage, userId);
@@ -151,6 +156,7 @@ public class MakeOfferPage implements EventHandler<ActionEvent> {
 				return;
 			}
 		}
+		//navigates back to the buyer item back to the all buyer item page
 		if (event.getSource() == backButton) {
 			new ShowAllBuyerItemPage(stage, userId);
 		}

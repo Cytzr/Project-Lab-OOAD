@@ -16,6 +16,8 @@ public class SellerNavbar {
     public SellerNavbar(String userId) {
     	SellerNavbar.userId = userId;
     }
+    
+    //returns navbar for seller
     public static MenuBar getInstance(Stage stage, String user_id) {
         menuBar = new MenuBar();
         

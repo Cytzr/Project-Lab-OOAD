@@ -18,6 +18,8 @@ import javafx.stage.Stage;
 import utilities.AlertUtil;
 
 public class CreateItemPage implements EventHandler<ActionEvent> {
+	
+	//declare required components
 	private Stage stage;
 	private Scene scene;
 	private GridPane gridPane;
@@ -28,6 +30,7 @@ public class CreateItemPage implements EventHandler<ActionEvent> {
 	private HBox titleBox, roleBox, uploadBox, backBox;
 	private VBox headerBox, footerBox;
 	private String userId;
+	
 	public CreateItemPage(Stage stage, String userId) {
 		this.stage = stage;
 		this.userId = userId;
@@ -40,7 +43,8 @@ public class CreateItemPage implements EventHandler<ActionEvent> {
 	}
 	
 	private void init() {
-	
+		
+		//component initialize and placement
 		titleLabel = new Label("Upload Item");
 		titleLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
 		titleBox = new HBox(titleLabel);
@@ -106,6 +110,7 @@ public class CreateItemPage implements EventHandler<ActionEvent> {
 		scene = new Scene(borderPane, 400, 300);
 	}
 	
+	//event handling 
 	public void handleEvent() {
 		uploadButton.setOnAction(this);
 		backButton.setOnAction(this);
@@ -155,6 +160,7 @@ public class CreateItemPage implements EventHandler<ActionEvent> {
 			
 		}
 		
+		//navigate back when the back button is pressed
 		if(event.getSource() == backButton) {
 			new ShowAllSellerItemPage(stage, userId);
 		}

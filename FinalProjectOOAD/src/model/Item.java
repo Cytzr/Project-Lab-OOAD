@@ -3,6 +3,7 @@ package model;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
+//model based on the item table
 public class Item {
 	private String item_id;
 	private String item_name;

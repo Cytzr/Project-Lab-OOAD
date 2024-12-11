@@ -25,7 +25,7 @@ import utilities.AlertUtil;
 
 public class ShowAllWishlistPage {
 	
-
+	//declare required components
 	private Stage stage;
 	private Scene scene;
 	private BorderPane borderPane1, borderPane2;
@@ -36,6 +36,7 @@ public class ShowAllWishlistPage {
 	TableView<WishlistItemModel> itemTable;
 	WishlistController wishlistController = new WishlistController();
 	private String userId;
+	
 	public ShowAllWishlistPage(Stage stage, String userId) {
 		this.stage = stage;
 		this.userId = userId;
@@ -48,6 +49,7 @@ public class ShowAllWishlistPage {
 	}
 	
 	private void init() {
+		//component initialize and placement
 		titleLabel = new Label("Wishlist");
 		titleLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
         titleBox = new HBox(titleLabel);
@@ -74,6 +76,7 @@ public class ShowAllWishlistPage {
 		scene = new Scene(borderPane1, 800, 600);
 	}
 	
+	//initialize table
 	private void initTable() {
 		TableColumn<WishlistItemModel, String> nameCol = new TableColumn<WishlistItemModel, String>("Name");
 		nameCol.setCellValueFactory(new PropertyValueFactory<WishlistItemModel, String>("item_name"));
@@ -91,12 +94,16 @@ public class ShowAllWishlistPage {
 		priceCol.setCellValueFactory(new PropertyValueFactory<WishlistItemModel, String>("item_price"));
 		priceCol.setMinWidth(borderPane1.getWidth()/5.3);
 		
+		//declare column with multiple components
 		TableColumn<WishlistItemModel, Void> buttonCol = new TableColumn<WishlistItemModel, Void>("Actions");
 		buttonCol.setCellFactory(new Callback<>() {
 		    @Override
 		    public TableCell<WishlistItemModel, Void> call(TableColumn<WishlistItemModel, Void> param) {
 		        return new TableCell<>() {
+		        	//declare component
 		            private final Button buttonDelete = new Button("Delete");
+		            
+		            //declare event handling for the button
 		            {
 		                buttonDelete.setOnAction(event -> {
 		                	
@@ -112,6 +119,7 @@ public class ShowAllWishlistPage {
 		                });
 		            }
 
+		            //decides when will the button show up
 		            @Override
 		            protected void updateItem(Void item, boolean empty) {
 		                super.updateItem(item, empty);
@@ -129,6 +137,7 @@ public class ShowAllWishlistPage {
 		
 		itemTable.getColumns().addAll(nameCol, categoryCol, sizeCol, priceCol, buttonCol);
 		
+		//add item to the table based on the controller result
 		List<WishlistItemModel> wishlistItems = wishlistController.ViewWishlist(userId);
 		for (WishlistItemModel item : wishlistItems) { 
 		    itemTable.getItems().add(item);

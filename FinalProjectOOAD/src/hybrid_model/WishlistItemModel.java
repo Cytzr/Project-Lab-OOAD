@@ -1,5 +1,6 @@
 package hybrid_model;
 
+//hybrid of wishlist and item table which will be used in item display
 public class WishlistItemModel {
 	private String wishlist_id;
 	private String item_id;

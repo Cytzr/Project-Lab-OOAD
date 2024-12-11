@@ -18,6 +18,7 @@ import model.Item;
 import utilities.AlertUtil;
 
 public class ViewSellerItemPage implements EventHandler<ActionEvent>{
+	//declare required ccomponents
 	Stage stage;
 	Scene scene;
 	GridPane gridPane;
@@ -44,6 +45,7 @@ public class ViewSellerItemPage implements EventHandler<ActionEvent>{
 		stage.show();
 	}
 	
+	//component initialize and placement
 	private void init(Item item) {
 		titleLabel = new Label("Edit Item");
 		titleLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
@@ -107,6 +109,7 @@ public class ViewSellerItemPage implements EventHandler<ActionEvent>{
 		scene = new Scene(borderPane, 400, 300);
 	}
 	
+	//event handling
 	public void handleEvent() {
 		editButton.setOnAction(this);
 		backButton.setOnAction(this);
@@ -114,6 +117,7 @@ public class ViewSellerItemPage implements EventHandler<ActionEvent>{
 
 	@Override
 	public void handle(ActionEvent event) {
+		//navigate based on event source
 		if(event.getSource() == editButton) {
 			new EditItemPage(stage, item, userId);
 		}

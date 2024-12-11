@@ -20,6 +20,8 @@ import javafx.stage.Stage;
 import utilities.AlertUtil;
 
 public class RejectItemSellerPage implements EventHandler<ActionEvent> {
+	
+	//declare required components
 	Stage stage;
 	Scene scene;
 	GridPane gridPane;
@@ -34,6 +36,7 @@ public class RejectItemSellerPage implements EventHandler<ActionEvent> {
 	OfferTableModel item;
 	OfferController offerController = new OfferController();
 	private String userId;
+	
 	public RejectItemSellerPage(Stage stage, OfferTableModel item, String userId) {
 		this.stage = stage;
 		this.userId = userId;
@@ -48,6 +51,8 @@ public class RejectItemSellerPage implements EventHandler<ActionEvent> {
 	}
 	
 	private void init(OfferTableModel item) {
+		
+		//component initialize and placement
 		titleLabel = new Label("Reject Item");
 		titleLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
 		titleBox = new HBox(titleLabel);
@@ -117,6 +122,7 @@ public class RejectItemSellerPage implements EventHandler<ActionEvent> {
 		scene = new Scene(borderPane, 400, 300);
 	}
 	
+	//event handling
 	public void handleEvent() {
 		rejectButton.setOnAction(this);
 		backButton.setOnAction(this);
@@ -139,6 +145,7 @@ public class RejectItemSellerPage implements EventHandler<ActionEvent> {
 				return;
 			}
 		}
+		//navigates to the page before when back button is pressed
 		if(event.getSource() == backButton) {
 			new ShowOfferedItemPage(stage, userId);
 		}

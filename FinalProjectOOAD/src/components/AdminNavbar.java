@@ -14,6 +14,7 @@ public class AdminNavbar {
 	private static MenuItem reviewItems;
 	private static MenuItem logout;
 	
+	//returns menu bar for admin
 	public static MenuBar getInstance(Stage stage) {
 		String userId = "0";
 		menuBar = new MenuBar();

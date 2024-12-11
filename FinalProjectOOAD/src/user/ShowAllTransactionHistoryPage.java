@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 import model.Item;
 
 public class ShowAllTransactionHistoryPage {
+	//declare required components
 	private Stage stage;
 	private Scene scene;
 	private BorderPane borderPane1, borderPane2;
@@ -42,6 +43,7 @@ public class ShowAllTransactionHistoryPage {
 	}
 	
 	private void init() {
+		//component intialize and placement 
 		titleLabel = new Label("Transaction History");
 		titleLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
         titleBox = new HBox(titleLabel);
@@ -68,6 +70,7 @@ public class ShowAllTransactionHistoryPage {
 		scene = new Scene(borderPane1, 800, 600);
 	}
 	
+	//initialize table
 	private void initTable() {
 		
 		TableColumn<TransactionHistoryModel, String> idCol = new TableColumn<TransactionHistoryModel, String>("ID");
@@ -92,6 +95,7 @@ public class ShowAllTransactionHistoryPage {
 		
 		itemTable.getColumns().addAll(idCol, nameCol, categoryCol, sizeCol, priceCol);
 		
+		//add items from controller result
 		List<TransactionHistoryModel> transactions = transactionController.ViewHistory(userId);
 		for (TransactionHistoryModel item : transactions) { 
 		    itemTable.getItems().add(item);

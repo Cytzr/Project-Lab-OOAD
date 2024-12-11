@@ -26,7 +26,7 @@ import model.Item;
 import utilities.AlertUtil;
 
 public class ShowAllSellerItemPage implements EventHandler<ActionEvent> {
-
+	//declare required components
 	private Stage stage;
 	private Scene scene;
 	private BorderPane borderPane1, borderPane2;
@@ -37,6 +37,7 @@ public class ShowAllSellerItemPage implements EventHandler<ActionEvent> {
 	private String userId;
 	TableView<Item> itemTable;
 	ItemController itemController = new ItemController();
+	
 	public ShowAllSellerItemPage(Stage stage, String userId) {
 		this.stage = stage;
 		this.userId = userId;
@@ -50,6 +51,7 @@ public class ShowAllSellerItemPage implements EventHandler<ActionEvent> {
 	}
 	
 	private void init() {
+		//component initialize and placement
 		titleLabel = new Label("My Items");
 		titleLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
         titleBox = new HBox(titleLabel);
@@ -81,6 +83,7 @@ public class ShowAllSellerItemPage implements EventHandler<ActionEvent> {
 		scene = new Scene(borderPane1, 1000, 600);
 	}
 	
+	//create table based on model
 	private void initTable() {
 		TableColumn<Item, String> nameCol = new TableColumn<Item, String>("Name");
 		nameCol.setCellValueFactory(new PropertyValueFactory<Item, String>("item_name"));
@@ -102,14 +105,18 @@ public class ShowAllSellerItemPage implements EventHandler<ActionEvent> {
 		approveCol.setCellValueFactory(new PropertyValueFactory<Item, String>("item_status"));
 		approveCol.setMinWidth(borderPane1.getWidth()/15);
 		
+		//create a table column to fit buttons
 		TableColumn<Item, Void> buttonCol = new TableColumn<Item, Void>("Actions");
 		buttonCol.setCellFactory(new Callback<>() {
 		    @Override
 		    public TableCell<Item, Void> call(TableColumn<Item, Void> param) {
 		        return new TableCell<>() {
+		        	//declare buttons and container
 		            private final Button buttonEdit = new Button("Detail");
 		            private final Button buttonDelete = new Button("Delete");
 		            private final HBox buttonContainer = new HBox(10, buttonEdit, buttonDelete);
+		            
+		            //declare functions for the buttons
 		            {
 		                buttonEdit.setOnAction(event -> {
 		                    Item currentItem = getTableView().getItems().get(getIndex());
@@ -128,6 +135,7 @@ public class ShowAllSellerItemPage implements EventHandler<ActionEvent> {
 		                });
 		            }
 
+		            //decides when to show or not show the buttons
 		            @Override
 		            protected void updateItem(Void item, boolean empty) {
 		                super.updateItem(item, empty);
@@ -153,12 +161,14 @@ public class ShowAllSellerItemPage implements EventHandler<ActionEvent> {
 		}
 	}
 
+	//event handling
 	public void handleEvent() {
 		uploadButton.setOnAction(this);
 	}
 	
 	@Override
 	public void handle(ActionEvent event) {
+		//navigates seller to upload page
 		if(event.getSource() == uploadButton) {
 			new CreateItemPage(stage, userId);
 		}

@@ -1,5 +1,6 @@
 package model;
 
+//model based on the user table
 public class User {
 	private String user_id;
 	private String username;

@@ -9,6 +9,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+
+//class to connect to the database
 public class Connect {
 	private final String USERNAME = "root";
 	private final String PASSWORD = "";

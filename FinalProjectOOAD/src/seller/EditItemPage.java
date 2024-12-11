@@ -19,6 +19,7 @@ import model.Item;
 import utilities.AlertUtil;
 
 public class EditItemPage implements EventHandler<ActionEvent> {
+	//declare required components
 	Stage stage;
 	Scene scene;
 	GridPane gridPane;
@@ -33,6 +34,7 @@ public class EditItemPage implements EventHandler<ActionEvent> {
 	ItemController itemController = new ItemController();
 	private String userId;
 	private String itemId;
+	
 	public EditItemPage(Stage stage, Item item, String userId) {
 		this.stage = stage;
 		this.userId = userId;
@@ -48,6 +50,7 @@ public class EditItemPage implements EventHandler<ActionEvent> {
 	
 	private void init(Item item) {
 		
+		//component initialize and placement
 		titleLabel = new Label("Edit Item");
 		titleLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
 		titleBox = new HBox(titleLabel);
@@ -117,6 +120,7 @@ public class EditItemPage implements EventHandler<ActionEvent> {
 		scene = new Scene(borderPane, 400, 300);
 	}
 	
+	//event handling
 	public void handleEvent() {
 		uploadButton.setOnAction(this);
 		backButton.setOnAction(this);
@@ -131,6 +135,7 @@ public class EditItemPage implements EventHandler<ActionEvent> {
 			String size = sizeTf.getText();
 			int price;
 			
+			//field validation
 			if(name.isEmpty() || category.isEmpty() || size.isEmpty()) {
 				AlertUtil.showAlert(Alert.AlertType.ERROR, "Edit Failed", "All fields must be filled");
 				return;
@@ -156,8 +161,9 @@ public class EditItemPage implements EventHandler<ActionEvent> {
 				return;
 			}
 			
-			
+			//call controller to edit item
 			boolean status = itemController.editItem(itemId, name, size, price, category);
+			// alert based on result from controller
 			if (status) {
 				AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Edit Successful", "Item has been edited");
 			} else {
@@ -165,6 +171,7 @@ public class EditItemPage implements EventHandler<ActionEvent> {
 			}
 			new ShowAllSellerItemPage(stage, userId);
 		}
+		//navigate to the page before if the back button is pressed
 		if(event.getSource() == backButton) {
 			new ViewSellerItemPage(stage, item, userId);
 		}

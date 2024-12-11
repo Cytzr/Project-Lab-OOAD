@@ -25,7 +25,7 @@ import model.Item;
 import utilities.AlertUtil;
 
 public class ShowAllBuyerItemPage{
-
+	//declare required variables
 	private Stage stage;
 	private Scene scene;
 	private BorderPane borderPane1, borderPane2;
@@ -38,6 +38,7 @@ public class ShowAllBuyerItemPage{
 	WishlistController wishlistController = new WishlistController();
 	TransactionController transactionController = new TransactionController();
 	private String userId;
+	
 	public ShowAllBuyerItemPage(Stage stage, String userId) {
 		this.stage = stage;
 		this.userId = userId;
@@ -50,6 +51,7 @@ public class ShowAllBuyerItemPage{
 	}
 	
 	private void init() {
+		//component initialize and placement
 		titleLabel = new Label("Available Items");
 		titleLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
         titleBox = new HBox(titleLabel);
@@ -76,6 +78,7 @@ public class ShowAllBuyerItemPage{
 		scene = new Scene(borderPane1, 800, 600);
 	}
 	
+	//initialize table
 	private void initTable() {
 		TableColumn<Item, String> nameCol = new TableColumn<Item, String>("Name");
 		nameCol.setCellValueFactory(new PropertyValueFactory<Item, String>("item_name"));
@@ -93,15 +96,19 @@ public class ShowAllBuyerItemPage{
 		priceCol.setCellValueFactory(new PropertyValueFactory<Item, String>("item_price"));
 		priceCol.setMinWidth(borderPane1.getWidth()/5.3);
 		
+		//create column with multiple items
 		TableColumn<Item, Void> buttonCol = new TableColumn<Item, Void>("Actions");
 		buttonCol.setCellFactory(new Callback<>() {
 		    @Override
 		    public TableCell<Item, Void> call(TableColumn<Item, Void> param) {
 		        return new TableCell<>() {
+		        	//declare components
 		            private final Button buttonPurchase = new Button("Purchase");
 		            private final Button buttonOffer = new Button("Offer");
 		            private final Button buttonWishlist = new Button("Wishlist");
 		            private final HBox buttonContainer = new HBox(10, buttonPurchase, buttonOffer, buttonWishlist);
+		            
+		            //declare components event handling
 		            {
 		                buttonPurchase.setOnAction(event -> {
 		                	Item currentItem = getTableView().getItems().get(getIndex());
@@ -136,6 +143,7 @@ public class ShowAllBuyerItemPage{
 		                });
 		            }
 
+		            //decides when will the cell be filled
 		            @Override
 		            protected void updateItem(Void item, boolean empty) {
 		                super.updateItem(item, empty);

@@ -20,6 +20,7 @@ import utilities.AlertUtil;
 
 public class RejectItemPage implements EventHandler<ActionEvent>{
 
+	//declare required components
 	Stage stage;
 	Scene scene;
 	GridPane gridPane;
@@ -47,6 +48,7 @@ public class RejectItemPage implements EventHandler<ActionEvent>{
 	}
 	
 	private void init(Item item) {
+		//component initiation and placement
 		titleLabel = new Label("Reject Item");
 		titleLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
 		titleBox = new HBox(titleLabel);
@@ -116,6 +118,7 @@ public class RejectItemPage implements EventHandler<ActionEvent>{
 		scene = new Scene(borderPane, 400, 300);
 	}
 	
+	//event handling
 	public void handleEvent() {
 		rejectButton.setOnAction(this);
 		backButton.setOnAction(this);

@@ -5,6 +5,7 @@ import java.util.Optional;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
+//class used for alert handling
 public class AlertUtil {
 	
     public static void showAlert(Alert.AlertType alertType, String title, String message) {

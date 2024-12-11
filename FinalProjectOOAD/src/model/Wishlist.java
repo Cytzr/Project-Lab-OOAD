@@ -1,5 +1,6 @@
 package model;
 
+//model based on the wishlist table
 public class Wishlist {
 	private String wishlist_id;
 	private String item_id;

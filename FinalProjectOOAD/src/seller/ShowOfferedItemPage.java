@@ -29,6 +29,7 @@ import model.Offer;
 import utilities.AlertUtil;
 
 public class ShowOfferedItemPage implements EventHandler<ActionEvent> {
+	//declare required components
 	private Stage stage;
 	private Scene scene;
 	private BorderPane borderPane1, borderPane2;
@@ -39,6 +40,7 @@ public class ShowOfferedItemPage implements EventHandler<ActionEvent> {
 	TransactionController transactionController = new TransactionController();
 	TableView<OfferTableModel> itemTable;
 	private String userId;
+	
 	public ShowOfferedItemPage(Stage stage, String userId) {
 		this.stage = stage;
 		this.userId = userId;
@@ -52,6 +54,7 @@ public class ShowOfferedItemPage implements EventHandler<ActionEvent> {
 	}
 	
 	private void init() {
+		//component initialize and placement
 		titleLabel = new Label("Offered Items");
 		titleLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
         titleBox = new HBox(titleLabel);
@@ -78,6 +81,7 @@ public class ShowOfferedItemPage implements EventHandler<ActionEvent> {
 		scene = new Scene(borderPane1, 800, 600);
 	}
 	
+	//initialize table
 	private void initTable() {
 		TableColumn<OfferTableModel, String> nameCol = new TableColumn<OfferTableModel, String>("Name");
 		nameCol.setCellValueFactory(new PropertyValueFactory<OfferTableModel, String>("item_name"));
@@ -99,14 +103,18 @@ public class ShowOfferedItemPage implements EventHandler<ActionEvent> {
 		offerCol.setCellValueFactory(new PropertyValueFactory<>("offer_price"));
 		offerCol.setMinWidth(borderPane1.getWidth()/6);
 		
+		//declare column for multiple buttons
 		TableColumn<OfferTableModel, Void> buttonCol = new TableColumn<OfferTableModel, Void>("Actions");
 		buttonCol.setCellFactory(new Callback<>() {
 		    @Override
 		    public TableCell<OfferTableModel, Void> call(TableColumn<OfferTableModel, Void> param) {
 		        return new TableCell<>() {
+		        	//declare multiple buttons and containers
 		            private final Button buttonAccept = new Button("Accept");
 		            private final Button buttonReject = new Button("Reject");
 		            private final HBox buttonContainer = new HBox(10, buttonAccept, buttonReject);
+		            
+		            //declare buttons function
 		            {
 		                buttonAccept.setOnAction(event -> {
 		                	OfferTableModel currentItem = getTableView().getItems().get(getIndex());
@@ -128,6 +136,7 @@ public class ShowOfferedItemPage implements EventHandler<ActionEvent> {
 		                });
 		            }
 
+		            //decide when to show the buttons
 		            @Override
 		            protected void updateItem(Void item, boolean empty) {
 		                super.updateItem(item, empty);
