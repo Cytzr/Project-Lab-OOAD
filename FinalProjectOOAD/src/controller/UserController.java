@@ -18,7 +18,7 @@ public class UserController {
         this.db = Connect.getInstance();
         this.con = db.getConnection();
     }
-
+// Register / Create User
     public boolean createUser(String username, String password, String phone_number, String address, String role) {
        
         String checkQuery = "SELECT COUNT(*) FROM user WHERE username = ?";
@@ -48,7 +48,7 @@ public class UserController {
             return false;
         }
     }
-    
+    // login and get user data
     public Map<String, String> login(String username, String password) {
         String query = "SELECT *  FROM user WHERE username = ? AND password = ?";
         try (PreparedStatement pst = con.prepareStatement(query)) {

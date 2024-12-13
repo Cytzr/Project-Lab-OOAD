@@ -41,13 +41,13 @@ public class ViewSellerItemPage implements EventHandler<ActionEvent>{
 		handleEvent();
 		
 		stage.setScene(scene);
-		stage.setTitle("Edit Item");
+		stage.setTitle("Item Detail");
 		stage.show();
 	}
 	
 	//component initialize and placement
 	private void init(Item item) {
-		titleLabel = new Label("Edit Item");
+		titleLabel = new Label("Item Detail");
 		titleLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
 		titleBox = new HBox(titleLabel);
 		titleBox.setAlignment(Pos.CENTER);

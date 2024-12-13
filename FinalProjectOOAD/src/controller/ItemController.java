@@ -56,7 +56,7 @@ public class ItemController {
                         rs.getString("item_size"),
                         rs.getString("item_price"),
                         rs.getString("item_category"),
-                        (rs.getInt("item_status") == 1 ? "Yes" : "No"),
+                        (rs.getInt("item_status") == 1 ? "Accepted" : (rs.getString("item_status") != null ? "Rejected" : "Pending")),
                         rs.getString("item_wishlist"),
                        rs.getString("item_offer_status"),
                         rs.getString("user_id")
@@ -109,12 +109,11 @@ public class ItemController {
             return false;
         }
     }
-    // Admin decline the seller's item based on the itemId and give reason
+    // Admin decline the seller's item based on the itemId and delete from database
     public boolean declineItem(String itemId, String reason) {
-        String query = "UPDATE item SET item_status = 0, reason = ? WHERE item_id = ?";
+        String query = "DELETE FROM item WHERE item_id = ?";
         try (PreparedStatement pst = con.prepareStatement(query)) {
-            pst.setString(1, reason);
-            pst.setString(2, itemId);
+            pst.setString(1, itemId);
             int rowsAffected = pst.executeUpdate();
             
             if (rowsAffected > 0) { 

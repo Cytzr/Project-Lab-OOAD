@@ -23,7 +23,7 @@ public class OfferController {
         this.db = Connect.getInstance();
         this.con = db.getConnection();
     }
-
+//    Buyer make price offer for the item
     public boolean offerPrice(String item_id, int offered_price, String userId) {
         String query = "INSERT INTO offer(item_id, user_id, offered_price) VALUES (?, ?, ?)";
         try (PreparedStatement pst = con.prepareStatement(query)) {
@@ -37,7 +37,7 @@ public class OfferController {
             return false;
         }
     }
-    
+//    Get all seller's product that is offered by buyer
     public List<OfferTableModel> ViewOfferedItemSeller(String userId) {
     	System.out.println(userId);
         String query = "SELECT * FROM offer JOIN item on item.item_id = offer.item_id JOIN user on user.user_id = offer.user_id WHERE item.user_id = ? AND item.item_status = 1 AND offer.status IS NULL";
@@ -70,6 +70,7 @@ public class OfferController {
         
         return items;
     }
+    //Seller accept offer and set status to 1
     public boolean AcceptOffer(String offerId) {
         String query = "UPDATE offer SET status = 1 WHERE offer_id = ?";
         try (PreparedStatement pst = con.prepareStatement(query)) {
@@ -88,6 +89,7 @@ public class OfferController {
             return false;
         }
     }
+    //Seller reject offer and delete the offer from database
     public boolean DeclineOffer(String offerId) {
         String query = "DELETE FROM offer WHERE offer_id = ?";
         try (PreparedStatement pst = con.prepareStatement(query)) {
@@ -106,7 +108,7 @@ public class OfferController {
             return false;
         }
     }
-       
+     // get all the offer that the user made by userId  
     public List<Offer> userOfferList(String userId) {
         String query = "SELECT * FROM offer JOIN item on item.item_id = offer.item_id WHERE user_id = 1";
         List<Offer> items = new ArrayList<>();
@@ -134,6 +136,8 @@ public class OfferController {
         
         return items;
     }
+    
+    //get the highest offer of the item
     public Offer getHighestOffer(String itemId) {
         String query = "SELECT offer.offer_id, offer.user_id, offer.item_id, offer.offered_price, offer.status, " +
                        "item.item_price, item.item_name " +

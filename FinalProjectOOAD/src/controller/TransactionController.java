@@ -25,7 +25,7 @@ public class TransactionController {
         this.db = Connect.getInstance();
         this.con = db.getConnection();
     }
-
+// Buyer make purchase of the item and create transaction
     public boolean PurchaseItems(String user_id, String item_id) {
         String query = "INSERT INTO transaction(user_id, item_id) VALUES (?, ?)";
         try (PreparedStatement pst = con.prepareStatement(query)) {
@@ -40,7 +40,7 @@ public class TransactionController {
             return false;
         }
     }
-    
+    // Get all the transaction that the buyer made
     public List<TransactionHistoryModel> ViewHistory(String userId) {
     	System.out.println(userId);
         String query = "SELECT * FROM transaction JOIN item on item.item_id = transaction.item_id WHERE transaction.user_id = ?";

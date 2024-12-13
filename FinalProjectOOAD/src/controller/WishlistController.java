@@ -23,6 +23,7 @@ public class WishlistController {
         this.con = db.getConnection();
     }
 
+    // Create wishlist based on item id and user id
     public boolean addWishListItem(String itemId, String userId) {
         String query = "INSERT INTO wishlist(item_id, user_id) VALUES (?, ?)";
         try (PreparedStatement pst = con.prepareStatement(query)) {
@@ -36,6 +37,7 @@ public class WishlistController {
         }
     }
     
+    // Get all the user's wishlist data
     public List<WishlistItemModel> ViewWishlist(String userId) {
         String query = "SELECT * FROM wishlist JOIN item on item.item_id = wishlist.item_id WHERE wishlist.user_id = ?";
         List<WishlistItemModel> items = new ArrayList<>();
@@ -65,6 +67,7 @@ public class WishlistController {
         return items;
     }
    
+    // Delete or remove from wishlist
     public boolean deleteWishList(String wishlistId) {
         String query = "DELETE FROM wishlist WHERE wishlist_id = ?";
         
@@ -86,6 +89,7 @@ public class WishlistController {
         }
     }
     
+    // on purchase item, delete the wishlist with the same item id
     public void deleteWishlistOnPurchase(String item_id) {
         String query = "DELETE FROM wishlist WHERE item_id = ?";
         try (PreparedStatement pst = con.prepareStatement(query)) {
