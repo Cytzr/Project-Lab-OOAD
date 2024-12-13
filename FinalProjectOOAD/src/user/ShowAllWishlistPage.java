@@ -108,6 +108,7 @@ public class ShowAllWishlistPage {
 		                buttonDelete.setOnAction(event -> {
 		                	
 		                	WishlistItemModel currentItem = getTableView().getItems().get(getIndex());
+		                	// Call wishlistController for deleting wishlist
 		                   boolean status = wishlistController.deleteWishList(currentItem.getWishlist_id());
 		                   if (status) {
 	        					AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Delete wishlist Success", "Wishlist has been deleted");

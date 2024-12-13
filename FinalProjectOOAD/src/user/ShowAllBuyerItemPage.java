@@ -114,6 +114,7 @@ public class ShowAllBuyerItemPage{
 		                	Item currentItem = getTableView().getItems().get(getIndex());
 		                	boolean isConfirmed = AlertUtil.showConfirmation("Purchase Confirmation", "Are you sure you want to proceed?");
 		                	if (isConfirmed) {
+		                		// Call transaction Controller to make a purchase on the item
 		                		boolean status = transactionController.PurchaseItems(userId, currentItem.getItem_id());
 		                		if (status) {
 		        					AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Purchased Success", "Purchase has been made");

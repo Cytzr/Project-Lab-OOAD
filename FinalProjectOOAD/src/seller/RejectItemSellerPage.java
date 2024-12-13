@@ -136,6 +136,7 @@ public class RejectItemSellerPage implements EventHandler<ActionEvent> {
 				AlertUtil.showAlert(Alert.AlertType.ERROR, "Reject Error", "Reason must be filled");
 				return;
 			}
+			//Call offerController to decline the offer based on the offer id from the item
 			boolean status = offerController.DeclineOffer(item.getOffer_id());
 			if (status == true) {
 				AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Offered Declined", "Offer has been declined");

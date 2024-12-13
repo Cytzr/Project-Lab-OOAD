@@ -155,6 +155,7 @@ public class ShowOfferedItemPage implements EventHandler<ActionEvent> {
 		
 		itemTable.getColumns().addAll(nameCol, categoryCol, sizeCol, priceCol, offerCol, buttonCol);
 		
+		//Call offerController to get all offered item
 		List<OfferTableModel> offerItems = offerController.ViewOfferedItemSeller(userId);
 		for (OfferTableModel item : offerItems) { 
 		    itemTable.getItems().add(item);

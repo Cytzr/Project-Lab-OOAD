@@ -120,11 +120,13 @@ public class ShowAllSellerItemPage implements EventHandler<ActionEvent> {
 		            {
 		                buttonEdit.setOnAction(event -> {
 		                    Item currentItem = getTableView().getItems().get(getIndex());
+		                    //Navigate to view page
 		                    new ViewSellerItemPage(stage, currentItem, userId);
 		                });
 
 		                buttonDelete.setOnAction(event -> {
 		                    Item currentItem = getTableView().getItems().get(getIndex());
+		                    //Call itemController to delete the item from db
 		                   boolean status = itemController.deleteItem(currentItem.getItem_id());
 		                   if (status) {
 		                	   AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Delete Successful", "Item has been deleted");
@@ -154,7 +156,7 @@ public class ShowAllSellerItemPage implements EventHandler<ActionEvent> {
 		
 		itemTable.getColumns().addAll(nameCol, categoryCol, sizeCol, priceCol, approveCol, buttonCol);
 		
-		
+		//Get all the item for the user (seller)
 		List<Item> sellerItems = itemController.getSellerItem(userId);
 		for (Item item : sellerItems) { 
 		    itemTable.getItems().add(item);

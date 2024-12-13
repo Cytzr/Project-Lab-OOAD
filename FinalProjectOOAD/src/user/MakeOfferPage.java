@@ -140,6 +140,7 @@ public class MakeOfferPage implements EventHandler<ActionEvent> {
 				            "Offer price must be larger than the current offer price, which is " + highestOffer.getOffer_price());
 				    return;
 				}
+				// Call offerController to make an price offer of the item
 				boolean status = offerController.offerPrice(item.getItem_id(), finalPrice, userId);
 
 				//alert based on controller response
