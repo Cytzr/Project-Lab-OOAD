@@ -150,7 +150,9 @@ public class RegisterPage implements EventHandler<ActionEvent>{
 	            AlertUtil.showAlert(Alert.AlertType.ERROR, "Registration Failed", "Password cannot be empty.");
 	            return;
 	        }
-	        if (pass.length() < 8 || !pass.matches(".*[!@#$%^&*].*")) {
+	        if (pass.length() < 8 || !pass.contains("!") && !pass.contains("@") && !pass.contains("#") && 
+	        	    !pass.contains("$") && !pass.contains("%") && !pass.contains("^") && 
+	        	    !pass.contains("&") && !pass.contains("*")) {
 	            AlertUtil.showAlert(Alert.AlertType.ERROR, "Registration Failed",
 	                "Password must be at least 8 characters long and include special characters such as (!, @, #, $, %, ^, &, *).");
 	            return;
