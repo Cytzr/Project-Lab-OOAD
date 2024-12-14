@@ -82,7 +82,7 @@ public class EditItemPage implements EventHandler<ActionEvent> {
 		priceTf.setText(item.getItem_price());
 		priceTf.setPromptText("Must be a number");
 		
-		uploadButton = new Button("Upload Item");
+		uploadButton = new Button("Save");
 		backButton = new Button("Back");
 		
 		uploadBox = new HBox(uploadButton);
