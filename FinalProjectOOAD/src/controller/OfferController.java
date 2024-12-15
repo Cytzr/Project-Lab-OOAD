@@ -18,7 +18,7 @@ public class OfferController {
 
     private final Connect db;
     private final Connection con;
-
+    ItemController itemController = new ItemController();
     public OfferController() {
         this.db = Connect.getInstance();
         this.con = db.getConnection();
@@ -71,7 +71,7 @@ public class OfferController {
         return items;
     }
     //Seller accept offer and set status to 1
-    public boolean AcceptOffer(String offerId) {
+    public boolean AcceptOffer(String offerId, String itemId) {
         String query = "UPDATE offer SET status = 1 WHERE offer_id = ?";
         try (PreparedStatement pst = con.prepareStatement(query)) {
           
@@ -80,7 +80,9 @@ public class OfferController {
             int rowsAffected = pst.executeUpdate();
             
             if (rowsAffected > 0) { 
+            	 itemController.deleteItem(itemId);
                 return true;
+               
             } else {
                 return false;
             }

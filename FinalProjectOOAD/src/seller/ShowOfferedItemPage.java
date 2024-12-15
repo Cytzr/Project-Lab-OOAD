@@ -120,7 +120,7 @@ public class ShowOfferedItemPage implements EventHandler<ActionEvent> {
 		                	//Get the current Item
 		                	OfferTableModel currentItem = getTableView().getItems().get(getIndex());
 		                	// Call offerController to accept the offer based on offerId
-		                	boolean status = offerController.AcceptOffer(currentItem.getOffer_id());
+		                	boolean status = offerController.AcceptOffer(currentItem.getOffer_id(), currentItem.getItem_id());
 		                	if (status == true) {
 		        				AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Offered Accepted", "Offer has been accepted");
 		        				transactionController.PurchaseItems(currentItem.getUser_id(), currentItem.getItem_id());
