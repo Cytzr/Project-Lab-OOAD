@@ -110,7 +110,7 @@ public class LoginPage implements EventHandler<ActionEvent>{
 		            return;
 		        } else {
 		        	//for admin privileges
-		            if (username.equals("admin") && pass.equals("pass")) {
+		            if (username.equals("admin") && pass.equals("admin")) {
 		            	AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Login Successful", "Welcome, " + username + "!");
 		            	new ReviewItemPage(stage);
 		            } else {
