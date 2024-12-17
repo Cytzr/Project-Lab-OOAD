@@ -146,13 +146,15 @@ public class OfferController {
                        "FROM offer " +
                        "JOIN item ON item.item_id = offer.item_id " +
                        "WHERE offer.item_id = ? " +
-                       "AND offer.offered_price = (SELECT MAX(offered_price) FROM offer WHERE item_id = offer.item_id)";
+                       "AND offer.offered_price = (SELECT MAX(offered_price) FROM offer WHERE item_id = ?)"
+                       + "LIMIT 1";
+    
 
         Offer highestOffer = null;
 
         try (PreparedStatement pst = con.prepareStatement(query)) {
             pst.setString(1, itemId);
-
+            pst.setString(2, itemId);
             try (ResultSet rs = pst.executeQuery()) {
                 if (rs.next()) {
                     highestOffer = new Offer(
