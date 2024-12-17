@@ -158,8 +158,8 @@ public class RegisterPage implements EventHandler<ActionEvent>{
 	            return;
 	        }
 
-	        if (!(phone.length() >= 10) || !phone.startsWith("+62")) {
-	            AlertUtil.showAlert(Alert.AlertType.ERROR, "Registration Failed", "Phone number must start with +62 and at least 10 numbers long.");
+	        if (!(phone.startsWith("+62") && phone.length() >= 12)) {
+	            AlertUtil.showAlert(Alert.AlertType.ERROR, "Registration Failed", "Phone number must start with +62 and be at least 10 digits long (e.g., +62123456789).");
 	            return;
 	        }
 
