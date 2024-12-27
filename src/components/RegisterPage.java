@@ -1,6 +1,7 @@
 package components;
 
 import controller.UserController;
+import facade.AppFacade;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -32,10 +33,10 @@ public class RegisterPage implements EventHandler<ActionEvent>{
 	private VBox footerBox;
 	private ToggleGroup roleGroup;
 	private Connect db;
-	
+	private AppFacade facade;
     public RegisterPage(Stage stage) {
         this.stage = stage;
-
+        this.facade = new AppFacade(stage);
         init();
         handleEvent();
 
@@ -129,7 +130,6 @@ public class RegisterPage implements EventHandler<ActionEvent>{
     //actual event handling based on source
 	@Override
 	public void handle(ActionEvent event) {
-		 UserController userController = new UserController();
 		if(event.getSource() == registerButton) {
             String username = usernameTf.getText();
             String pass = passTf.getText();
@@ -178,15 +178,8 @@ public class RegisterPage implements EventHandler<ActionEvent>{
 	        }
 	        RadioButton selectedRole = (RadioButton) roleGroup.getSelectedToggle();
 	        String role = selectedRole.getText();
+	        facade.register(username, pass, phone, address, role);
 	        
-	        //registers user to db
-	        boolean status = userController.createUser(username, pass, phone, address, role);
-	        //show alert based on the response
-	        if (status == true) {
-	        	 AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Registration Successful", "Welcome, " + username + "! Your role is " + role + ".");
-	        } else {
-	        	 AlertUtil.showAlert(Alert.AlertType.ERROR, "Registration Failed", "Something Went Wrong or User Already Exist");
-	        }
 	       
 		}
 		

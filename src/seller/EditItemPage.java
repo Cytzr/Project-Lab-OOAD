@@ -1,6 +1,7 @@
 package seller;
 
 import controller.ItemController;
+import facade.AppFacade;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -29,16 +30,16 @@ public class EditItemPage implements EventHandler<ActionEvent> {
 	Button uploadButton, backButton;
 	HBox titleBox, roleBox, uploadBox, backBox;
 	VBox headerBox, footerBox;
-	
 	Item item;
-	ItemController itemController = new ItemController();
 	private String userId;
 	private String itemId;
+	private AppFacade facade;
 	
 	public EditItemPage(Stage stage, Item item, String userId) {
 		this.stage = stage;
 		this.userId = userId;
 		this.item = item;
+		this.facade = new AppFacade(stage);
 		itemId = item.getItem_id();
 		init(item);
 		handleEvent();
@@ -161,15 +162,7 @@ public class EditItemPage implements EventHandler<ActionEvent> {
 				return;
 			}
 			
-			//call controller to edit item
-			boolean status = itemController.editItem(itemId, name, size, price, category);
-			// alert based on result from controller
-			if (status) {
-				AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Edit Successful", "Item has been edited");
-			} else {
-				AlertUtil.showAlert(Alert.AlertType.ERROR, "Edit Failed", "Something Went Wrong!");
-			}
-			new ShowAllSellerItemPage(stage, userId);
+			facade.editItem(size, name, size, price, category, userId);
 		}
 		//navigate to the page before if the back button is pressed
 		if(event.getSource() == backButton) {

@@ -1,6 +1,7 @@
 package user;
 
 import controller.OfferController;
+import facade.AppFacade;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -35,12 +36,13 @@ public class MakeOfferPage implements EventHandler<ActionEvent> {
 
 	Item item;
 	private String userId;
-	OfferController offerController = new OfferController();
+	private AppFacade facade;
 
 	public MakeOfferPage(Stage stage, Item item, String userId) {
 		this.stage = stage;
 		this.userId = userId;
 		this.item = item;
+		this.facade = new AppFacade(stage);
 
 		init(item);
 		handleEvent();
@@ -134,23 +136,8 @@ public class MakeOfferPage implements EventHandler<ActionEvent> {
 			try {
 				//offer validation
 				int finalPrice = Integer.parseInt(offerPrice);
-				Offer highestOffer = offerController.getHighestOffer(item.getItem_id());
-				if (highestOffer != null && finalPrice <= highestOffer.getOffer_price()) {
-				    AlertUtil.showAlert(Alert.AlertType.ERROR, "Offer Failed",
-				            "Offer price must be larger than the current offer price, which is " + highestOffer.getOffer_price());
-				    return;
-				}
-				// Call offerController to make an price offer of the item
-				boolean status = offerController.offerPrice(item.getItem_id(), finalPrice, userId);
-
-				//alert based on controller response
-				if (status) {
-					AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Offer Success", "Offer has been made");
-					new ShowAllBuyerItemPage(stage, userId);
-				} else {
-					AlertUtil.showAlert(Alert.AlertType.ERROR, "Offer Failed", "Something Went Wrong");
-				}
-				
+				facade.makeOffer(item.getItem_id(), finalPrice, userId);				
+				return;
 
 			} catch (Exception ex) {
 				AlertUtil.showAlert(Alert.AlertType.ERROR, "Offer Failed", "Offer price must be in number");

@@ -15,12 +15,13 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import proxy.LoginProxy;
 import seller.ShowAllSellerItemPage;
 import user.ShowAllBuyerItemPage;
 import utilities.AlertUtil;
 
 public class LoginPage implements EventHandler<ActionEvent>{
-
+	
 	//declare required components
     private Scene scene;
     private GridPane gridPane;
@@ -32,10 +33,10 @@ public class LoginPage implements EventHandler<ActionEvent>{
     private Stage stage;
     private HBox titleBox, loginBox, registerBox;
     private VBox footerBox;
-    
+    LoginProxy loginProxy;
     public LoginPage(Stage stage) {
         this.stage = stage;
-
+        loginProxy = new LoginProxy(stage);
         init();
         handleEvent();
 
@@ -104,42 +105,9 @@ public class LoginPage implements EventHandler<ActionEvent>{
 		if(event.getSource() == loginButton) {
 			String username = usernameTf.getText();
 			String pass = passTf.getText();
-			//fields validation
-			 if (username.isEmpty() || pass.isEmpty()) {
-		            AlertUtil.showAlert(Alert.AlertType.ERROR, "Login Failed", "Please enter both username and pass.");
-		            return;
-		        } else {
-		        	//for admin privileges
-		            if (username.equals("admin") && pass.equals("admin")) {
-		            	AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Login Successful", "Welcome, " + username + "!");
-		            	new ReviewItemPage(stage);
-		            } else {
-		            	// for other logins
-		            	Map<String, String> user = userController.login(username, pass);
-		            	
-		            	//if user exists
-		            	if (user != null) {
-		            	    String userId = user.get("userId");
-		            	    String role = user.get("role");
-		            	    
-		            		AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Login Successful", "Welcome, " + username + "!");
-		            		
-		            		//navigate based on roles
-		            		if(role.equals("Seller")) {
-
-		            			new ShowAllSellerItemPage(stage, userId);
-		            		
-		            		} else {
-		            			new ShowAllBuyerItemPage(stage, userId);
-		            		}
-		            	} else {
-		            		//error handling
-		            		AlertUtil.showAlert(Alert.AlertType.ERROR, "Login Failed", "Invalid username or pass.");
-		            	}
-		                
-		                return;
-		            }
-		        }
+	 	
+        	loginProxy.login(username, pass);	
+            return;          
 		}
 		//navigate to register page
 		if(event.getSource() == registerButton) {

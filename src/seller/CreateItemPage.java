@@ -1,6 +1,7 @@
 package seller;
 
 import controller.ItemController;
+import facade.AppFacade;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -30,10 +31,11 @@ public class CreateItemPage implements EventHandler<ActionEvent> {
 	private HBox titleBox, roleBox, uploadBox, backBox;
 	private VBox headerBox, footerBox;
 	private String userId;
-	
+	private AppFacade facade;
 	public CreateItemPage(Stage stage, String userId) {
 		this.stage = stage;
 		this.userId = userId;
+		this.facade = new AppFacade(stage);
 		init();
 		handleEvent();
 		
@@ -149,17 +151,7 @@ public class CreateItemPage implements EventHandler<ActionEvent> {
 				AlertUtil.showAlert(Alert.AlertType.ERROR, "Upload Failed", "Item price must be more than 0");
 				return;
 			}
-			// Call itemController to create the item
-			boolean status = itemController.uploadItem(name, size, price, category, userId);
-			//Check status of the item creation
-			if (status == true) {
-				AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Upload Successful", "Item has been uploaded");
-				//Redirect to seller item page
-				new ShowAllSellerItemPage(stage, userId);
-			} else {
-				AlertUtil.showAlert(Alert.AlertType.ERROR, "Upload Failed", "Something Went Wrong!");
-				return;
-			}
+			facade.createItem(name, size, price, category, userId);
 			
 		}
 		

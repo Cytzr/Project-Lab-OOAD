@@ -6,6 +6,7 @@ import admin.RejectItemPage;
 import components.SellerNavbar;
 import controller.OfferController;
 import controller.TransactionController;
+import facade.AppFacade;
 import hybrid_model.OfferTableModel;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -36,14 +37,14 @@ public class ShowOfferedItemPage implements EventHandler<ActionEvent> {
 	private Label titleLabel, roleLabel;
 	private HBox titleBox, roleBox;
 	private VBox headerBox;
-	OfferController offerController = new OfferController();
-	TransactionController transactionController = new TransactionController();
+	private AppFacade facade;
 	TableView<OfferTableModel> itemTable;
 	private String userId;
 	
 	public ShowOfferedItemPage(Stage stage, String userId) {
 		this.stage = stage;
 		this.userId = userId;
+		this.facade = new AppFacade(stage);
 		init();
 		initTable();
 		handleEvent();
@@ -120,15 +121,7 @@ public class ShowOfferedItemPage implements EventHandler<ActionEvent> {
 		                	//Get the current Item
 		                	OfferTableModel currentItem = getTableView().getItems().get(getIndex());
 		                	// Call offerController to accept the offer based on offerId
-		                	boolean status = offerController.AcceptOffer(currentItem.getOffer_id(), currentItem.getItem_id());
-		                	if (status == true) {
-		        				AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Offered Accepted", "Offer has been accepted");
-		        				transactionController.PurchaseItems(currentItem.getUser_id(), currentItem.getItem_id());
-		        				new ShowOfferedItemPage(stage, userId);
-		        			} else {
-		        				AlertUtil.showAlert(Alert.AlertType.ERROR, "Offered Accepted Failed", "Something Went Wrong!");
-		        				return;
-		        			}
+		                	facade.acceptOffer(currentItem.getOffer_id(), currentItem.getItem_id(), userId, currentItem.getUser_id());
 		                });
 
 		                buttonReject.setOnAction(event -> {
@@ -156,7 +149,7 @@ public class ShowOfferedItemPage implements EventHandler<ActionEvent> {
 		itemTable.getColumns().addAll(nameCol, categoryCol, sizeCol, priceCol, offerCol, buttonCol);
 		
 		//Call offerController to get all offered item
-		List<OfferTableModel> offerItems = offerController.ViewOfferedItemSeller(userId);
+		List<OfferTableModel> offerItems = facade.getOfferedItemList(userId);
 		for (OfferTableModel item : offerItems) { 
 		    itemTable.getItems().add(item);
 		}

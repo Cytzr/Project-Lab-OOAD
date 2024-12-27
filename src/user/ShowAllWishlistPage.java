@@ -4,6 +4,7 @@ import java.util.List;
 
 import components.UserNavbar;
 import controller.WishlistController;
+import facade.AppFacade;
 import hybrid_model.WishlistItemModel;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -34,12 +35,13 @@ public class ShowAllWishlistPage {
 	private VBox headerBox;
 	
 	TableView<WishlistItemModel> itemTable;
-	WishlistController wishlistController = new WishlistController();
+	private AppFacade facade;
 	private String userId;
 	
 	public ShowAllWishlistPage(Stage stage, String userId) {
 		this.stage = stage;
 		this.userId = userId;
+		this.facade = new AppFacade(stage);
 		init();
 		initTable();
 		
@@ -109,13 +111,7 @@ public class ShowAllWishlistPage {
 		                	
 		                	WishlistItemModel currentItem = getTableView().getItems().get(getIndex());
 		                	// Call wishlistController for deleting wishlist
-		                   boolean status = wishlistController.deleteWishList(currentItem.getWishlist_id());
-		                   if (status) {
-	        					AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Delete wishlist Success", "Wishlist has been deleted");
-	        					new ShowAllWishlistPage(stage, userId);
-	        				} else {
-	        					AlertUtil.showAlert(Alert.AlertType.ERROR, "Delete wishlist Failed", "Something Went Wrong");
-	        				}
+		                  facade.deleteWishlist(currentItem.getWishlist_id(), userId);
 	             	
 		                });
 		            }
@@ -139,7 +135,7 @@ public class ShowAllWishlistPage {
 		itemTable.getColumns().addAll(nameCol, categoryCol, sizeCol, priceCol, buttonCol);
 		
 		//add item to the table based on the controller result
-		List<WishlistItemModel> wishlistItems = wishlistController.ViewWishlist(userId);
+		List<WishlistItemModel> wishlistItems = facade.viewWishList(userId);
 		for (WishlistItemModel item : wishlistItems) { 
 		    itemTable.getItems().add(item);
 		}

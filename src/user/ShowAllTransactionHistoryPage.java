@@ -4,6 +4,7 @@ import java.util.List;
 
 import components.UserNavbar;
 import controller.TransactionController;
+import facade.AppFacade;
 import hybrid_model.OfferTableModel;
 import hybrid_model.TransactionHistoryModel;
 import javafx.geometry.Insets;
@@ -30,10 +31,11 @@ public class ShowAllTransactionHistoryPage {
 	
 	TableView<TransactionHistoryModel> itemTable;
 	private String userId;
-	TransactionController transactionController = new TransactionController();
+	private AppFacade facade;
 	public ShowAllTransactionHistoryPage(Stage stage, String userId) {
 		this.stage = stage;
 		this.userId = userId;
+		this.facade = new AppFacade(stage);
 		init();
 		initTable();
 		
@@ -96,7 +98,7 @@ public class ShowAllTransactionHistoryPage {
 		itemTable.getColumns().addAll(idCol, nameCol, categoryCol, sizeCol, priceCol);
 		
 		//add items from controller result
-		List<TransactionHistoryModel> transactions = transactionController.ViewHistory(userId);
+		List<TransactionHistoryModel> transactions = facade.viewTransactionHistory(userId);
 		for (TransactionHistoryModel item : transactions) { 
 		    itemTable.getItems().add(item);
 		}

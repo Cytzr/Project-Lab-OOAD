@@ -6,6 +6,7 @@ import components.UserNavbar;
 import controller.ItemController;
 import controller.TransactionController;
 import controller.WishlistController;
+import facade.AppFacade;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -34,14 +35,13 @@ public class ShowAllBuyerItemPage{
 	private VBox headerBox;
 	
 	TableView<Item> itemTable;
-	ItemController itemController = new ItemController();
-	WishlistController wishlistController = new WishlistController();
-	TransactionController transactionController = new TransactionController();
+	private AppFacade facade;
 	private String userId;
 	
 	public ShowAllBuyerItemPage(Stage stage, String userId) {
 		this.stage = stage;
 		this.userId = userId;
+		this.facade = new AppFacade(stage);
 		init();
 		initTable();
 		
@@ -115,13 +115,7 @@ public class ShowAllBuyerItemPage{
 		                	boolean isConfirmed = AlertUtil.showConfirmation("Purchase Confirmation", "Are you sure you want to proceed?");
 		                	if (isConfirmed) {
 		                		// Call transaction Controller to make a purchase on the item
-		                		boolean status = transactionController.PurchaseItems(userId, currentItem.getItem_id());
-		                		if (status) {
-		        					AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Purchased Success", "Purchase has been made");
-		        					new ShowAllBuyerItemPage(stage, userId);
-		        				} else {
-		        					AlertUtil.showAlert(Alert.AlertType.ERROR, "Purchase Failed", "Something Went Wrong!");
-		        				}
+		                		facade.purchaseItem(userId, currentItem.getItem_id());
 		             	
 		                	}
 		                	
@@ -133,14 +127,7 @@ public class ShowAllBuyerItemPage{
 		                });
 		                buttonWishlist.setOnAction(event -> {
 		                	Item currentItem = getTableView().getItems().get(getIndex());
-		                	boolean status = wishlistController.addWishListItem(currentItem.getItem_id(), userId);
-		                	if (status) {
-	        					AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Wishlist Add Success", "Item has been added to wishlist");
-	        					new ShowAllBuyerItemPage(stage, userId);
-	        				} else {
-	        					AlertUtil.showAlert(Alert.AlertType.ERROR, "Wishlist Add Failed", "Something Went Wrong!");
-	        				}
-	             	
+		                	facade.addToWishList(currentItem.getItem_id(), userId);
 		                });
 		            }
 
@@ -162,7 +149,7 @@ public class ShowAllBuyerItemPage{
 		
 		itemTable.getColumns().addAll(nameCol, categoryCol, sizeCol, priceCol, buttonCol);
 		
-		List<Item> buyerItems = itemController.ViewItem();
+		List<Item> buyerItems = facade.viewItem();
 		for (Item item : buyerItems) { 
 		    itemTable.getItems().add(item);
 		}

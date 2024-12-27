@@ -1,6 +1,6 @@
 package admin;
 
-import controller.ItemController;
+import facade.AppFacade;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -33,10 +33,10 @@ public class RejectItemPage implements EventHandler<ActionEvent>{
 	VBox headerBox, footerBox;
 	
 	Item item;
-	ItemController itemController = new ItemController();
+	AppFacade facade;
 	public RejectItemPage(Stage stage, Item item) {
 		this.stage = stage;
-		
+		facade = new AppFacade(stage);
 		this.item = item;
 		
 		init(item);
@@ -134,16 +134,9 @@ public class RejectItemPage implements EventHandler<ActionEvent>{
 				AlertUtil.showAlert(Alert.AlertType.ERROR, "Reject Error", "Reason must be filled");
 				return;
 			}
-			//Access itemcontroller function declineItem to decline the item based on the itemId
-			boolean status = itemController.declineItem(item.getItem_id(), reason);
-			//Check status true or false for the alert, true means the query success and false mean it fail
-			 if (status) {
-          	   AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Decline Successful", "Item has been declined");
-          	   //Redirect to review item page;
-          	   new ReviewItemPage(stage);
-             } else {
-          	   AlertUtil.showAlert(Alert.AlertType.ERROR, "Decline Failed", "Something Went Wrong!");
-             }
+			
+			 facade.adminDeclineItem(item.getItem_id(), reason);
+			
 		}
 		if(event.getSource() == backButton) {
 			new ReviewItemPage(stage);

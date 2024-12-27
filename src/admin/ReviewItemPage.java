@@ -5,6 +5,7 @@ import java.util.List;
 import components.AdminNavbar;
 import components.UserNavbar;
 import controller.ItemController;
+import facade.AppFacade;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -33,12 +34,12 @@ public class ReviewItemPage {
 	private Label titleLabel, roleLabel;
 	private HBox titleBox, roleBox;
 	private VBox headerBox;
-	ItemController itemController = new ItemController();
+	private AppFacade facade;
 	TableView<Item> itemTable;
 	
 	public ReviewItemPage(Stage stage) {
 		this.stage = stage;
-		
+		this.facade = new AppFacade(stage);
 		init();
 		initTable();
 		
@@ -109,15 +110,9 @@ public class ReviewItemPage {
 		                buttonAccept.setOnAction(event -> {
 		                	//Get the current item of the table
 		                	Item currentItem = getTableView().getItems().get(getIndex());
-		                	//Access itemController function approveItem based on itemId
-		                    boolean status = itemController.approveItem(currentItem.getItem_id());
-		                  //Check status true or false for the alert, true means the query success and false mean it fail
-		                    if (status) {
-			                	   AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Approve Successful", "Item has been approved");
-			                	   new ReviewItemPage(stage);
-			                   } else {
-			                	   AlertUtil.showAlert(Alert.AlertType.ERROR, "Approve Failed", "Something Went Wrong!");
-			                   }
+		                
+		                	facade.adminApproveItem(currentItem.getItem_id());
+		                    
 		                   
 		                });
 		                buttonReject.setOnAction(event -> {
@@ -146,9 +141,8 @@ public class ReviewItemPage {
 		
 		itemTable.getColumns().addAll(nameCol, categoryCol, sizeCol, priceCol, buttonCol);
 		
-		//Looping apply the data to the table based on data from itemController view requested item
-		List<Item> approvalItems = itemController.ViewRequestedItem();
-		for (Item item : approvalItems) { 
+		List<Item> items = facade.getRequestedItemList();
+		for (Item item : items) { 
 		    itemTable.getItems().add(item);
 		}
 	}

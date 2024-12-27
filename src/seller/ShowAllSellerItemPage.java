@@ -5,6 +5,7 @@ import java.util.Map;
 
 import components.SellerNavbar;
 import controller.ItemController;
+import facade.AppFacade;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -36,11 +37,12 @@ public class ShowAllSellerItemPage implements EventHandler<ActionEvent> {
 	private VBox headerBox;
 	private String userId;
 	TableView<Item> itemTable;
-	ItemController itemController = new ItemController();
+	private AppFacade facade;
 	
 	public ShowAllSellerItemPage(Stage stage, String userId) {
 		this.stage = stage;
 		this.userId = userId;
+		this.facade = new AppFacade(stage);
 		init();
 		initTable();
 		handleEvent();
@@ -126,14 +128,8 @@ public class ShowAllSellerItemPage implements EventHandler<ActionEvent> {
 
 		                buttonDelete.setOnAction(event -> {
 		                    Item currentItem = getTableView().getItems().get(getIndex());
-		                    //Call itemController to delete the item from db
-		                   boolean status = itemController.deleteItem(currentItem.getItem_id());
-		                   if (status) {
-		                	   AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Delete Successful", "Item has been deleted");
-		                   } else {
-		                	   AlertUtil.showAlert(Alert.AlertType.ERROR, "Delete Failed", "Something Went Wrong, Check if the item is approved by admin or not");
-		                   }
-		                   new ShowAllSellerItemPage(stage, userId);
+		                    facade.deleteItem(currentItem.getItem_id(), userId);
+		                   
 		                });
 		            }
 
@@ -157,7 +153,7 @@ public class ShowAllSellerItemPage implements EventHandler<ActionEvent> {
 		itemTable.getColumns().addAll(nameCol, categoryCol, sizeCol, priceCol, approveCol, buttonCol);
 		
 		//Get all the item for the user (seller)
-		List<Item> sellerItems = itemController.getSellerItem(userId);
+		List<Item> sellerItems = facade.getSellerItem(userId);
 		for (Item item : sellerItems) { 
 		    itemTable.getItems().add(item);
 		}
