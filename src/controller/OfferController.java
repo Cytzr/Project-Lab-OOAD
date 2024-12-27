@@ -80,7 +80,7 @@ public class OfferController {
             int rowsAffected = pst.executeUpdate();
             
             if (rowsAffected > 0) { 
-            	 itemController.deleteItem(itemId);
+            	
                 return true;
                
             } else {
