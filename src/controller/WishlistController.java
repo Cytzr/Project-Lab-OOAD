@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import factory.WishlistFactory;
 import hybrid_model.WishlistItemModel;
 import model.Item;
 import utilities.Connect;
@@ -48,16 +49,25 @@ public class WishlistController {
             try (ResultSet rs = pst.executeQuery()) {
                 while (rs.next()) { 
                    
-                    WishlistItemModel item = new WishlistItemModel(
-                        rs.getString("wishlist.wishlist_id"),
-                        rs.getString("item.item_id"),
-                        rs.getString("wishlist.user_id"),
-                        rs.getString("item_name"),
-                        rs.getString("item_category"),
-                        rs.getString("item_size"),
-                        rs.getString("item_price")
-                    );
-                    items.add(item);
+                	 String wishlistId = rs.getString("wishlist.wishlist_id");
+                     String itemId = rs.getString("item.item_id");
+                     String wishlistUserId = rs.getString("wishlist.user_id");
+                     String itemName = rs.getString("item_name");
+                     String itemCategory = rs.getString("item_category");
+                     String itemSize = rs.getString("item_size");
+                     String itemPrice = rs.getString("item_price");
+
+                     WishlistItemModel item = WishlistFactory.createWishlistItemModel(
+                         wishlistId,
+                         itemId,
+                         wishlistUserId,
+                         itemName,
+                         itemCategory,
+                         itemSize,
+                         itemPrice
+                     );
+
+                     items.add(item);
                 }
             }
         } catch (SQLException e) {

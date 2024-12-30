@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import factory.TransactionHistoryModelFactory;
 import hybrid_model.OfferTableModel;
 import hybrid_model.TransactionHistoryModel;
 import model.Item;
@@ -51,17 +52,25 @@ public class TransactionController {
             
             try (ResultSet rs = pst.executeQuery()) {
                 while (rs.next()) { 
-                   TransactionHistoryModel item = new TransactionHistoryModel (	   
-        		   rs.getString("transaction.transaction_id"),
-         		   rs.getString("transaction.user_id"),
-         		   rs.getString("transaction.item_id"),
-         		  rs.getString("item.item_name"),
-         		  rs.getString("item.item_category"),
-         		 rs.getString("item.item_size"),
-         		   rs.getString("item.item_price")
-        		   );
-                		 
-                    items.add(item);
+                	 String transactionId = rs.getString("transaction.transaction_id");
+                     String transactionUserId = rs.getString("transaction.user_id");
+                     String itemId = rs.getString("transaction.item_id");
+                     String itemName = rs.getString("item.item_name");
+                     String itemCategory = rs.getString("item.item_category");
+                     String itemSize = rs.getString("item.item_size");
+                     String itemPrice = rs.getString("item.item_price");
+                     
+                     TransactionHistoryModel item = TransactionHistoryModelFactory.createTransactionHistoryModel(
+                         transactionId,
+                         transactionUserId,
+                         itemId,
+                         itemName,
+                         itemCategory,
+                         itemSize,
+                         itemPrice
+                     );
+
+                     items.add(item);
                 }
             }
         } catch (SQLException e) {

@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import factory.ItemFactory;
 import model.Item;
 import utilities.Connect;
 
@@ -50,18 +51,21 @@ public class ItemController {
             try (ResultSet rs = pst.executeQuery()) {
                 while (rs.next()) { 
                    
-                    Item item = new Item(
-                        rs.getString("item_id"),
-                        rs.getString("item_name"),
-                        rs.getString("item_size"),
-                        rs.getString("item_price"),
-                        rs.getString("item_category"),
-                        (rs.getInt("item_status") == 1 ? "Accepted" : (rs.getString("item_status") != null ? "Rejected" : "Pending")),
-                        rs.getString("item_wishlist"),
-                       rs.getString("item_offer_status"),
-                        rs.getString("user_id")
-                       
+                	String itemId = rs.getString("item_id");
+                    String itemName = rs.getString("item_name");
+                    String itemSize = rs.getString("item_size");
+                    String itemPrice = rs.getString("item_price");
+                    String itemCategory = rs.getString("item_category");
+                    int itemStatus = rs.getInt("item_status");
+                    String itemWishlist = rs.getString("item_wishlist");
+                    String itemOfferStatus = rs.getString("item_offer_status");
+                    String sellerUserId = rs.getString("user_id");
+
+                    Item item = ItemFactory.createItem(
+                        itemId, itemName, itemSize, itemPrice, itemCategory, 
+                        itemStatus, itemWishlist, itemOfferStatus, sellerUserId
                     );
+
                     items.add(item);
                 }
             }
@@ -157,17 +161,22 @@ public class ItemController {
             try (ResultSet rs = pst.executeQuery()) {
                 while (rs.next()) { 
                    
-                    Item item = new Item(
-                        rs.getString("item_id"),
-                        rs.getString("item_name"),
-                        rs.getString("item_size"),
-                        rs.getString("item_price"),
-                        rs.getString("item_category"),
-                       rs.getString("item_status"),
-                        rs.getString("item_wishlist"),
-                       rs.getString("item_offer_status"),
-                        rs.getString("user_id")
+            
+                    String itemId = rs.getString("item_id");
+                    String itemName = rs.getString("item_name");
+                    String itemSize = rs.getString("item_size");
+                    String itemPrice = rs.getString("item_price");
+                    String itemCategory = rs.getString("item_category");
+                    int itemStatus = rs.getInt("item_status");
+                    String itemWishlist = rs.getString("item_wishlist");
+                    String itemOfferStatus = rs.getString("item_offer_status");
+                    String sellerUserId = rs.getString("user_id");
+
+                    Item item = ItemFactory.createItem(
+                        itemId, itemName, itemSize, itemPrice, itemCategory, 
+                        itemStatus, itemWishlist, itemOfferStatus, sellerUserId
                     );
+
                     items.add(item);
                 }
             }
@@ -187,17 +196,22 @@ public class ItemController {
             try (ResultSet rs = pst.executeQuery()) {
                 while (rs.next()) { 
                    
-                    Item item = new Item(
-                        rs.getString("item_id"),
-                        rs.getString("item_name"),
-                        rs.getString("item_size"),
-                        rs.getString("item_price"),
-                        rs.getString("item_category"),
-                       rs.getString("item_status"),
-                        rs.getString("item_wishlist"),
-                       rs.getString("item_offer_status"),
-                        rs.getString("user_id")
+                	String itemId = rs.getString("item_id");
+                    String itemName = rs.getString("item_name");
+                    String itemSize = rs.getString("item_size");
+                    String itemPrice = rs.getString("item_price");
+                    String itemCategory = rs.getString("item_category");
+                    int itemStatus = rs.getInt("item_status");
+                    String itemWishlist = rs.getString("item_wishlist");
+                    String itemOfferStatus = rs.getString("item_offer_status");
+                    String sellerUserId = rs.getString("user_id");
+
+                 
+                    Item item = ItemFactory.createItem(
+                        itemId, itemName, itemSize, itemPrice, itemCategory, 
+                        itemStatus, itemWishlist, itemOfferStatus, sellerUserId
                     );
+
                     items.add(item);
                 }
             }

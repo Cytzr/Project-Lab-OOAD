@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import factory.OfferFactory;
+import factory.OfferTableFactory;
 import hybrid_model.OfferTableModel;
 import model.Item;
 import model.Offer;
@@ -48,19 +50,30 @@ public class OfferController {
             
             try (ResultSet rs = pst.executeQuery()) {
                 while (rs.next()) { 
-                   OfferTableModel item = new OfferTableModel (	   
-        		   rs.getString("offer_id"),
-         		   rs.getString("offer.user_id"),
-         		   rs.getString("item.item_id"),
-         		  rs.getString("item.item_name"),
-         		  rs.getString("item.item_size"),
-         		 rs.getInt("item.item_price"),
-         		   rs.getInt("offer.offered_price"),
-         		   rs.getString("item.item_category"),
-         		   rs.getString("offer.status"),
-         		   rs.getString("user.username")
-        		   );
-                		 
+                	String offerId = rs.getString("offer_id");
+                    String offerUserId = rs.getString("offer.user_id");
+                    String itemId = rs.getString("item.item_id");
+                    String itemName = rs.getString("item.item_name");
+                    String itemSize = rs.getString("item.item_size");
+                    int itemPrice = rs.getInt("item.item_price");
+                    int offeredPrice = rs.getInt("offer.offered_price");
+                    String itemCategory = rs.getString("item.item_category");
+                    String status = rs.getString("offer.status");
+                    String username = rs.getString("user.username");
+
+                    OfferTableModel item = OfferTableFactory.createOfferTableModel(
+                        offerId,
+                        offerUserId,
+                        itemId,
+                        itemName,
+                        itemSize,
+                        itemPrice,
+                        offeredPrice,
+                        itemCategory,
+                        status,
+                        username
+                    );
+
                     items.add(item);
                 }
             }
@@ -119,17 +132,25 @@ public class OfferController {
             try (ResultSet rs = pst.executeQuery()) {
                 while (rs.next()) { 
                    
-                	Offer item = new Offer (
-                			  rs.getString("offer_id"),
-                   		   rs.getString("offer.user_id"),
-                   		   rs.getString("item.item_id"),
-                   		   rs.getInt("offer.offered_price"),
-                   		   rs.getString("offer.status"),
-                   		   rs.getInt("item.item_price"),
-                   		   rs.getString("item.item_name")
-                 		   );
-                         		 
-                             items.add(item);
+                	 String offerId = rs.getString("offer_id");
+                     String offerUserId = rs.getString("offer.user_id");
+                     String itemId = rs.getString("item.item_id");
+                     int offeredPrice = rs.getInt("offer.offered_price");
+                     String status = rs.getString("offer.status");
+                     int itemPrice = rs.getInt("item.item_price");
+                     String itemName = rs.getString("item.item_name");
+
+                     Offer item = OfferFactory.createOffer(
+                         offerId,
+                         offerUserId,
+                         itemId,
+                         offeredPrice,
+                         status,
+                         itemPrice,
+                         itemName
+                     );
+
+                     items.add(item);
                 }
             }
         } catch (SQLException e) {
@@ -157,15 +178,23 @@ public class OfferController {
             pst.setString(2, itemId);
             try (ResultSet rs = pst.executeQuery()) {
                 if (rs.next()) {
-                    highestOffer = new Offer(
-                            rs.getString("offer_id"),
-                            rs.getString("user_id"),
-                            rs.getString("item_id"),
-                            rs.getInt("offered_price"),
-                            rs.getString("status"),
-                            rs.getInt("item_price"),
-                            rs.getString("item_name")
-                    );
+                    String offerId = rs.getString("offer_id");
+                    String offerUserId = rs.getString("offer.user_id");
+                    String itemIds = rs.getString("item.item_id");
+                    int offeredPrice = rs.getInt("offer.offered_price");
+                    String status = rs.getString("offer.status");
+                    int itemPrice = rs.getInt("item.item_price");
+                    String itemName = rs.getString("item.item_name");
+
+                    highestOffer = OfferFactory.createOffer(
+                        offerId,
+                        offerUserId,
+                        itemIds,
+                        offeredPrice,
+                        status,
+                        itemPrice,
+                        itemName
+                    ); 
                 }
             }
         } catch (SQLException e) {
